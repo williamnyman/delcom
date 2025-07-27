@@ -1,0 +1,8 @@
+buttons very good too
+card for the 4 different options
+modal
+navbar
+placeholders
+boostrap offcanvas for menu on side
+progress bar for when loading
+spinners

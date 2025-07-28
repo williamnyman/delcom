@@ -11,6 +11,8 @@ client = OpenAI(api_key=api_key)
 
 craving = input("Enter your food craving: ")
 
+# adding comment to test push
+
 # Make a request
 response = client.chat.completions.create(
     model="gpt-4o",
@@ -18,7 +20,7 @@ response = client.chat.completions.create(
         {"role": "system", "content": 
             "You are a helpful assistant that converts food cravings into structured data."
 
-            "A user will describe what they're craving. Based on the text, extract the following fields:"
+            "A user will describe what they're craving. Based on the text, extract the following fields in the format of 'field title': field_item1, field_item2,...:"
 
             "title: A short name for the item the user likely wants (e.g. “Pad Thai”, “Cheeseburger”, “Breakfast Burrito”)"
 

@@ -1,0 +1,12 @@
+ok so i think we are going to do this,
+the craving is going to be embedded by an openai api call which is going to format the craving into this format
+    title
+    ingredients/includes/description
+    exclusions
+    quality/vibe
+
+then the menu items are going to be scraped to attempt to get a similar encoding
+    item name
+    description/add ons
+    removables
+    restaurant/tags

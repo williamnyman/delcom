@@ -6,33 +6,46 @@ import os
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 
+
+prompt = """
+You are an AI that converts food cravings into a structured format for comparison with food delivery menu items.
+
+Given a craving, extract the following fields:
+- Title: the best short name for what they want
+- Includes: specific ingredients or components they want
+- Excludes: anything they say they don’t want
+- Style: words that describe the vibe, tone, or situation (e.g. hangover, greasy, comfort food, light)
+
+Then return a single string formatted like:
+{Title} — {Includes} — Excludes: {Excludes} — {Style}
+
+Examples:
+
+Craving: “I want something greasy and huge to kill this hangover — like a breakfast burrito or loaded fries but nothing sweet.”
+Output:  
+Breakfast Burrito or Loaded Fries — bacon, egg, cheese, potato — Excludes: sweet items — greasy, hangover, filling
+
+Craving: “Feeling kind of light, maybe sushi or poke, nothing with fried stuff though”
+Output:  
+Sushi or Poke — raw fish, rice, vegetables — Excludes: fried items — light, clean
+
+Craving: “pad thai”
+Output:  
+Pad Thai — rice noodles, peanut sauce, vegetables — Excludes: none — Thai, savory
+"""
+
+
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
 craving = input("Enter your food craving: ")
 
-# adding comment to test push
 
 # Make a request
 response = client.chat.completions.create(
     model="gpt-4o",
     messages=[                           # conversation history (including instructions)
-        {"role": "system", "content": 
-            "You are a helpful assistant that converts food cravings into structured data."
-
-            "A user will describe what they're craving. Based on the text, extract the following fields in the format of 'field title': field_item1, field_item2,...:"
-
-            "title: A short name for the item the user likely wants (e.g. “Pad Thai”, “Cheeseburger”, “Breakfast Burrito”)"
-
-            "ingredients: Any specific additions or expected components (e.g. “chicken”, “bacon”, “extra cheese”)"
-
-            "exclusions: Any ingredients the user explicitly does not want (e.g. “no green onion”, “no mayo”)"
-
-            "qualities: Vague or emotional desires or food properties (e.g. “salty”, “greasy”, “hangover food”)"
-
-            "Only extract qualities if you cannot extract a title."
-            
-            "If any of these fields are not mentioned, leave them blank."},
+        {"role": "system", "content": prompt},
         {"role": "user", "content": craving}        
     ],
 

@@ -27,22 +27,25 @@ delcom/
 ### Backend
 
 1. Navigate to the backend directory:
+
    ```bash
    cd delcom_backend
    ```
 
 2. Create and activate a virtual environment:
+
    ```bash
    # On macOS/Linux
    python3 -m venv venv
-   source venv/bin/activate
+   source playwright_venv/bin/activate
 
    # On Windows
    python -m venv venv
-   venv\Scripts\activate
+   playwright_venv\Scripts\activate
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -57,11 +60,13 @@ delcom/
 ### Frontend
 
 1. Navigate to the frontend directory:
+
    ```bash
    cd delcom_frontend
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -97,11 +102,11 @@ dist/
 
 ## 🧠 Tech Stack
 
-- **Python**: Backend logic and automation  
-- **Playwright**: Headless browser automation  
-- **OpenAI API**: Natural language understanding  
-- **React**: Frontend interface (assumed)  
-- **dotenv**: Environment variable management  
+- **Python**: Backend logic and automation
+- **Playwright**: Headless browser automation
+- **OpenAI API**: Natural language understanding
+- **React**: Frontend interface (assumed)
+- **dotenv**: Environment variable management
 
 ---
 

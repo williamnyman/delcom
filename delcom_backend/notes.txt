@@ -10,3 +10,7 @@ then the menu items are going to be scraped to attempt to get a similar encoding
     description/add ons
     removables
     restaurant/tags
+
+
+
+getSearchFeedV1

@@ -11,10 +11,25 @@ def get_cookie_and_csrf(address):
         # Go to Uber Eats
         page.goto("https://www.ubereats.com/")
 
-        # Enter address
-        page.get_by_label("Enter delivery address").fill(address)
-        page.keyboard.press("Enter")
-        page.wait_for_timeout(3000)
+        # # Enter address
+        # page.get_by_label("Enter delivery address").fill(address)
+        # page.keyboard.press("Enter")
+        # page.wait_for_timeout(3000)
+
+        if page.is_visible("button[title='Close']"):
+            page.click("button[title='Close']")
+            print('Popup closed.')
+
+        page.wait_for_selector('input#location-typeahead-home-input', state='visible')
+        page.fill('input#location-typeahead-home-input', address)
+
+        for i in range(5):
+            page.click('button[data-testid=find-food-button]')
+            try:
+                page.wait_for_selector('input#search-suggestions-typeahead-input', timeout=2000, state='visible')
+                break
+            except:
+                pass
 
         # Get cookies
         cookies = context.cookies()
@@ -29,8 +44,3 @@ def get_cookie_and_csrf(address):
 
         browser.close()
         return cookie_str, csrf_cookie or "x"
-
-address = "1042 Clay St, San Francisco, CA 94108-1510"
-cookie_str, csrf_token = get_cookie_and_csrf(address)
-print(f"Cookie: {cookie_str}")
-print(f"CSRF Token: {csrf_token}")

@@ -1,7 +1,9 @@
 import requests
 from authentication_util import get_cookie_and_csrf
+from uber_parse_util import parse_uber_getSearchFeedV1
 
-ADDRESS = "980 NW Hillside Park Dr, Bend, OR"
+ADDRESS = "1042 Clay St San Francisco, CA"
+FOOD = "Cheeseburger"
 
 cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
 
@@ -16,7 +18,7 @@ headers = {
 
 
 payload = {
-    "userQuery": "Cheeseburger",
+    "userQuery": FOOD,
     "date": "",
     "startTime": 0,
     "endTime": 0,
@@ -39,8 +41,11 @@ payload = {
 
 response = requests.post(url, headers=headers, json=payload)
 
-print(response.status_code)
-print(response.text[:500])
+# print(response.status_code)
+# print(response.text[:500])
 
-print(response.status_code)
-print(response.json())
+# print(response.status_code)
+# print(response.json().text[:500])  # Print the first 500 characters of the JSON response
+
+# response.json() is a dictionary!!
+parse_uber_getSearchFeedV1(response.json())

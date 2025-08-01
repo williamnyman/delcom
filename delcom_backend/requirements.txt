@@ -3,3 +3,4 @@ playwright
 python-dotenv
 numpy
 scikit-learn
+requests

@@ -21,7 +21,7 @@ def parse_uber_getSearchFeedV1(data):
         store_uuid = item.get("store", {}).get("storeUuid", "")
 
         restaurants.append({
-            "title": store_name
+            "title": store_name,
             "storeUuid": store_uuid
         })
 

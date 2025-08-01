@@ -41,11 +41,5 @@ payload = {
 
 response = requests.post(url, headers=headers, json=payload)
 
-# print(response.status_code)
-# print(response.text[:500])
-
-# print(response.status_code)
-# print(response.json().text[:500])  # Print the first 500 characters of the JSON response
-
 # response.json() is a dictionary!!
 parse_uber_getSearchFeedV1(response.json())

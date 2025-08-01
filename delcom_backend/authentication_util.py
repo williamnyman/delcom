@@ -11,11 +11,6 @@ def get_cookie_and_csrf(address):
         # Go to Uber Eats
         page.goto("https://www.ubereats.com/")
 
-        # # Enter address
-        # page.get_by_label("Enter delivery address").fill(address)
-        # page.keyboard.press("Enter")
-        # page.wait_for_timeout(3000)
-
         if page.is_visible("button[title='Close']"):
             page.click("button[title='Close']")
             print('Popup closed.')

@@ -41,7 +41,7 @@ def parse_uber_getStoreV1(data):
     data (dict): JSON from getStoreV1 API response as a dict
 
     Returns:
-    restaurants (list of dicts) | Each dict contains 'title' and 'storeUuid' of a restaurant
+    components (dict) | Contains important components for in-store search: location, sectionUUIDs, storeUUIDs
     """
     # create empty list to hold restaurant data
     components = {}
@@ -62,5 +62,45 @@ def parse_uber_getStoreV1(data):
 
     return components 
 
+
+def parse_uber_getInStoreSearchV1(data):
+    """
+    Description:
+    Parses a JSON file (as a dict) and extracts components needed for getMenuItemV1 API call
+
+    Args:
+    data (dict): JSON from getInStoreSearchV1 API response as a dict
+
+    Returns:
+    items (list of dicts) | Each dict contains storeUUID, sectionUUID, menuItemUUID, subsectionUUID of a menu item
+    """
+    items_list = []
+
+    data = data["data"]["catalogSectionsMap"]
+
+    for section_key, section_list in data.items():
+        for section in section_list:
+            #section_uuid = section.get("catalogSectionUUID")
+            
+            catalog_items = (
+                section.get("payload", {})
+                    .get("standardItemsPayload", {})
+                    .get("catalogItems", [])
+            )
+            
+            for item in catalog_items:
+                menu_item_uuid = item.get("uuid")
+                section_uuid = item.get("sectionUuid")
+                subsection_uuid = item.get("subsectionUuid")
+                menu_item_title = item.get("title")
+                
+                items_list.append({
+                    "title": menu_item_title,
+                    "sectionuuid": section_uuid,
+                    "subsectionuuid": subsection_uuid,
+                    "menuitemuuid": menu_item_uuid,
+                })
+
+    return items_list
 
 

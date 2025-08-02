@@ -1,12 +1,12 @@
 import requests
 from authentication_util import get_cookie_and_csrf
-from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1
+from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1, parse_uber_getInStoreSearchV1
 
-ADDRESS = "Hyde St & Lombard St, San Francisco. CA"
-FOOD = "Burrito"
+# Constants: address/food, cookies/headers
+ADDRESS = "1042 Clay St, San Francisco. CA"
+FOOD = "Salmon"
 
 cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
-
 headers = {
     "Content-Type": "application/json",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
@@ -14,9 +14,10 @@ headers = {
     "x-csrf-token": csrf_token,
 }
 
+# Step 1) getSearchFeedV1: get restaurants that match the food query
 URLgetSearchFeedV1 = "https://www.ubereats.com/_p/api/getSearchFeedV1"
-
 PAYLOADgetSearchFeedV1 = {
+    # Only userQuery changes
     "userQuery": FOOD,
     "date": "",
     "startTime": 0,
@@ -39,36 +40,28 @@ PAYLOADgetSearchFeedV1 = {
 }
 
 response = requests.post(URLgetSearchFeedV1, headers=headers, json=PAYLOADgetSearchFeedV1)
-
-# response.json() is a dictionary!!
 restaurants = parse_uber_getSearchFeedV1(response.json())
 
 test_rest = restaurants[0]
 print(test_rest)
+store_code = test_rest['storeUuid']
 
+# Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
 URLgetStoreV1 = "https://www.ubereats.com/_p/api/getStoreV1"
-
-# eventually will be for more restaurants, but for now just testing with the first one
-
 PAYLOADgetStoreV1 = {
+    # Only storeUuid changes
+    "storeUuid": test_rest['storeUuid'],
     "cbType": "EATER_ENDORSED",
     "diningMode": "DELIVERY",
-    "storeUuid": test_rest['storeUuid'],
     "time": {"asap": "true"}
 }
-print("Payload loaded ✓")
 
 response2 = requests.post(URLgetStoreV1, headers=headers, json=PAYLOADgetStoreV1)
-#print(response2.json())
-
-print("Response 2 received ✓")
-
 components = parse_uber_getStoreV1(response2.json())
 
 
-
+# Step 3) getInStoreSearchV1: get menu items that match the food query
 URLgetInStoreSearchV1 = "https://www.ubereats.com/_p/api/getInStoreSearchV1"
-
 PAYLOADgetInStoreSearchV1 = {
     # These dont change
     'diningMode': 'DELIVERY',
@@ -80,8 +73,41 @@ PAYLOADgetInStoreSearchV1 = {
     'storeUUIDs': components['storeUUIDs'],
     'userQuery': FOOD,
     'targetLocation': components['location'],
-    
 }
 
 response3 = requests.post(URLgetInStoreSearchV1, headers=headers, json=PAYLOADgetInStoreSearchV1)
-print(response3.json())
+menu_items = parse_uber_getInStoreSearchV1(response3.json())
+test_item = menu_items[0]
+print(test_item)
+
+# # Step 4) getMenuItemV1: get detailed information about each menu item
+URLgetMenuItemV1 = "https://www.ubereats.com/_p/api/getMenuItemV1"
+PAYLOADgetMenuItemV1 = {
+    # These dont change
+    'itemRequestType': 'ITEM',
+    'cbType': 'EATER_ENDORSED',
+    'contextReferences': [
+        {
+            'type': 'GROUP_ITEMS',
+            'payload': {
+                'type': 'groupItemsContextReferencePayload',
+                'groupItemsContextReferencePayload': {},
+            },
+            'pageContext': 'UNKNOWN',
+        },
+    ],
+
+    # These do change
+    'storeUuid': store_code,
+    'sectionUuid': test_item['sectionuuid'],
+    'subsectionUuid': test_item['subsectionuuid'],
+    'menuItemUuid': test_item['menuitemuuid']
+    
+}
+
+response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
+menu_item_details = response4.json()
+print(menu_item_details)
+
+
+# ok got to the point where we have pulled the menu item details

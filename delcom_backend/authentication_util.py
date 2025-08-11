@@ -25,7 +25,7 @@ def get_cookie_and_csrf(address):
 
     with sync_playwright() as p:
         # Launch the browser
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, slow_mo=0) 
         context = browser.new_context()
         page = context.new_page()
 
@@ -44,7 +44,8 @@ def get_cookie_and_csrf(address):
         print("Address filled ✓")
 
         # Click the find food button, retry a few times in case the button is not immediately available (can be slow sometimes)
-        for i in range(5):
+        #for i in range(5):
+        while True:
             page.click('button[data-testid=find-food-button]')
             try:
                 # The selector is waited for because then we are at the home page and we know we are in an active session and therefore can pull cookie/token

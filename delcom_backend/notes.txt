@@ -1,16 +1,18 @@
-ok so i think we are going to do this,
-the craving is going to be embedded by an openai api call which is going to format the craving into this format
-    title
-    ingredients/includes/description
-    exclusions
-    quality/vibe
+[CRAVING]
+Title: {query}
+Must: {must_have}
+Avoid: {exclusions}
+Vibe: {vibe}
+Diet: {diet}
+Notes: Budget ${budget_max_usd}, ETA ≤ {max_eta_min} min
 
-then the menu items are going to be scraped to attempt to get a similar encoding
-    item name
-    description/add ons
-    removables
-    restaurant/tags
-
+[ITEM]
+{item.name} — {restaurant.name}
+Desc: {item.description}
+Ingredients: {ingredients}
+Options: {customizations_flat}
+Restaurant tags: {restaurant.tags}
+Meta: rating {rating}, ETA {eta_min} min, price ${base_price_cents/100}
 
 
 getSearchFeedV1

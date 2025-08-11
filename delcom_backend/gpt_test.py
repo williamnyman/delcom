@@ -18,46 +18,27 @@ def get_embedding(text: str) -> list[float]:
 
 
 prompt = """
-You are an AI that converts food cravings into a structured format for comparison with food delivery menu items.
+You are a data normalizer for a food matching app.
 
-Given a craving, extract the following fields:
-- Title: the best short name for what they want
-- Includes: specific ingredients or components they want
-- Excludes: any speficic ingredients they say they don’t want
-- Style: words that describe the vibe, tone, or situation (e.g. hangover, greasy, comfort food, light)
+Given a user’s craving, extract and normalize the key details into the following structured text format for semantic embedding.
 
-Then return a single string formatted like:
-{Title} — {Includes} — Excludes: {Excludes} — {Style}
+Rules:
+- The Title must be ONLY the core food name that can be searched directly on a delivery platform (e.g., "cheeseburger", "pad thai", "pepperoni pizza").
+- Do NOT include modifiers like toppings, ingredients, or dietary restrictions in the Title.
+- Put additional required details in the Must section.
+- Put ingredients or attributes to avoid in the Avoid section.
+- Vibe describes the desired quality or feel (cheap, fast, healthy, gourmet, etc.).
+- Diet lists dietary restrictions if any, otherwise "none".
+- Notes include constraints like budget, ETA, or other relevant context.
 
-If the craving does not explicitly mention a food and only mentions a cuisine or type of food, use "Not specified" as the title
-
-If they dont mention any specific toppings or ingredients use "Not specified" for Includes
-
-If they do not mention any specific ingredients to exclude, use "Not specified" for Excludes
-
-Examples:
-
-Craving: “I want something greasy and huge to kill this hangover — like a breakfast burrito or loaded fries but nothing sweet.”
-Output:  
-Breakfast Burrito or Loaded Fries — Not specified — Excludes: Not Specified — greasy, hangover, filling
-
-Craving: “Feeling kind of light, maybe sushi or poke, nothing with fried stuff though”
-Output:  
-Sushi or Poke — Not specified — Excludes: Not specified — light, clean
-
-Craving: “pad thai”
-Output:  
-Pad Thai — Not specified — Excludes: Not specified — Thai, savory
-
-Craving: “I want a cheeseburger that has lettuce on it and make sure there are not tomatoes”
-Output:  
-Cheeseburger — Lettuce — Excludes: Tomatos — classic, comfort food
-
-Craving: “I want chicken pad thai”
-Output:  
-Pad Thai — Chicken — Excludes: Not specified — Thai, savory
+Format:
+[CRAVING] Title: <core food>
+Must: <comma-separated must-have details>
+Avoid: <comma-separated avoid items>
+Vibe: <comma-separated vibe words>
+Diet: <diet restrictions or 'none'>
+Notes: <constraints and other context>
 """
-
 
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)

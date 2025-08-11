@@ -107,7 +107,128 @@ PAYLOADgetMenuItemV1 = {
 
 response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
 menu_item_details = response4.json()
-print(menu_item_details)
+
+# Assuming your JSON is stored in menu_item_details (as a Python dict)
+
+customizations = menu_item_details.get("data", {}).get("customizationsList", [])
+
+result = []
+for customization in customizations:
+    customization_title = customization.get("title", "")
+    option_titles = [option.get("title", "") for option in customization.get("options", [])]
+    result.append({
+        "customization_title": customization_title,
+        "options": option_titles
+    })
+
+# Example: print nicely
+for c in result:
+    print(f"Customization: {c['customization_title']}")
+    for opt in c["options"]:
+        print(f"  - {opt}")
+
+
+# I NEED TO GO THRU ALL OF THIS CODE AND MAKE SURE IT IS ALL WORKING
+# FIX REST. TAGS
+# --- existing code above ---
+
+response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
+menu_item_details = response4.json()
+
+# -------- Build encoding --------
+def _pick(*vals, default=None):
+    for v in vals:
+        if isinstance(v, dict):
+            # if dicts are passed directly, skip (use explicit lookups below)
+            continue
+        if v not in (None, "", [], {}):
+            return v
+    return default
+
+data = (menu_item_details or {}).get("data", {})
+
+# 1) Item + restaurant names
+item_name = _pick(test_item.get("title"), test_item.get("name"), default="Unknown Item")
+restaurant_name = _pick(test_rest.get("name"), test_rest.get("title"), test_rest.get("storeName"), default="Unknown Restaurant")
+
+# 2) Description
+item_desc = _pick(data.get("itemDescription"), test_item.get("description"), default="")
+
+# 3) Ingredients (use any field Uber provides; otherwise leave blank)
+ingredients_list = _pick(
+    data.get("ingredientsList"),
+    data.get("ingredients"),
+    data.get("defaultIngredients"),
+    default=[]
+)
+if isinstance(ingredients_list, str):
+    ingredients_list = [ingredients_list]
+ingredients = ", ".join([str(x).strip() for x in ingredients_list]) if ingredients_list else ""
+
+# 4) Options (flatten customizations)
+customizations = data.get("customizationsList", []) or []
+options_blocks = []
+for cust in customizations:
+    title = (cust or {}).get("title") or ""
+    opts = [o.get("title", "") for o in (cust or {}).get("options", []) if o.get("title")]
+    if title and opts:
+        options_blocks.append(f"{title}: " + " | ".join(opts))
+    elif opts:
+        options_blocks.append(" | ".join(opts))
+customizations_flat = "; ".join(options_blocks)
+
+# 5) Restaurant tags
+tags = test_rest.get("tags") or test_rest.get("categories") or []
+if isinstance(tags, dict):  # sometimes comes nested
+    tags = list(tags.values())
+restaurant_tags = ", ".join([str(t) for t in tags]) if tags else ""
+
+# 6) Meta: rating, ETA, price
+# rating can appear in a few shapes
+rating = _pick(
+    test_rest.get("rating"),
+    (test_rest.get("storeRating") or {}).get("value") if isinstance(test_rest.get("storeRating"), dict) else None,
+    (test_rest.get("rating") or {}).get("value") if isinstance(test_rest.get("rating"), dict) else None,
+    test_rest.get("avgRating"),
+    default=""
+)
+
+# ETA min
+eta_obj = test_rest.get("etaRange") or {}
+eta_min = _pick(eta_obj.get("min"), test_rest.get("eta_min"), default="")
+
+# Base price (cents) from detailed item if possible, else from search hit
+base_price_cents = _pick(data.get("price"), test_item.get("price"), default=0) or 0
+try:
+    price_dollars = f"{(int(base_price_cents) / 100):.2f}"
+except Exception:
+    price_dollars = ""
+
+# 7) Final encoding
+encoding = (
+    "[ITEM]\n"
+    f"{item_name} — {restaurant_name}\n"
+    f"Desc: {item_desc}\n"
+    f"Ingredients: {ingredients}\n"
+    f"Options: {customizations_flat}\n"
+    f"Restaurant tags: {restaurant_tags}\n"
+    f"Meta: rating {rating}, ETA {eta_min} min, price ${price_dollars}"
+)
+
+print("\n" + encoding + "\n")
+
+
+# need to start constructing the following format:
+# [ITEM]
+# {item.name} — {restaurant.name}
+# Desc: {item.description}
+# Ingredients: {ingredients}
+# Options: {customizations_flat}
+# Restaurant tags: {restaurant.tags}
+# Meta: rating {rating}, ETA {eta_min} min, price ${base_price_cents/100}
+
+
+
 
 
 # ok got to the point where we have pulled the menu item details

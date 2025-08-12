@@ -55,11 +55,12 @@ def parse_uber_getStoreV1(data):
     components.update({"sectionUUIDs": sectionUUIDs})
 
     components.update({"storeUUIDs": [data["data"]["uuid"]]})    
-    
-    # already have query
-    
-    
 
+    components.update({"categories": data.get("data", {}).get("categories", [])})    
+
+    components.update({"rating" : data.get("data", {}).get("rating", {}).get("ratingValue")})
+    components.update({"eta" : data.get("data", {}).get("etaRange", {}).get("text")})
+    
     return components 
 
 
@@ -103,4 +104,48 @@ def parse_uber_getInStoreSearchV1(data):
 
     return items_list
 
+def parse_uber_getMenuItemV1(data):
+    """
+    Parses a getMenuItemV1 API JSON dict and extracts:
+      - item title (string)
+      - price (float, dollars)
+      - description (string)
+      - customizations (list of customization titles and their options)
 
+    Args:
+        data (dict): Uber Eats getMenuItemV1 API response as dict
+
+    Returns:
+        dict: {
+            "title": str,
+            "price": float,
+            "description": str,
+            "customizations": list[dict]
+        }
+    """
+    item = data.get("data", {})
+
+    # Basic fields
+    title = item.get("title", "")
+    description = item.get("itemDescription", "")
+    price = round(item.get("price", 0)/100,2)
+    
+
+    # Extract customizations
+    customizations = []
+    for cust in item.get("customizationsList", []):
+        cust_title = cust.get("title", "")
+        options = [opt.get("title", "") for opt in cust.get("options", [])]
+        customizations.append({
+            "title": cust_title,
+            "options": options
+        })
+
+    return {
+        "title": title,
+        "price": price,
+        "description": description,
+        "customizations": customizations
+    }
+
+    

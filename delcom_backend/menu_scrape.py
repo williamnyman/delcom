@@ -1,6 +1,8 @@
 import requests
 from authentication_util import get_cookie_and_csrf
 from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1, parse_uber_getInStoreSearchV1, parse_uber_getMenuItemV1
+from spinner_util import spinner_start, spinner_end
+import time
 
 def scraper_uber_eats():
     # Constants: address/food, cookies/headers

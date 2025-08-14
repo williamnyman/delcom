@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 import os
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+from spinner_util import spinner_start, spinner_end
+import time
 
 # Load variables from .env and get the API key
 load_dotenv()

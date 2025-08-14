@@ -4,6 +4,9 @@ Utility functions for handling JSON parsing for Uber Eats API responses.
 Including parsing the getSearchFeedV1, getStoreV1 and ...
 '''
 
+from spinner_util import spinner_start, spinner_end
+import time
+
 def parse_uber_getSearchFeedV1(data):
     """
     Description:

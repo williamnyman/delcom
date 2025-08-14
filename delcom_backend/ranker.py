@@ -5,6 +5,9 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from menu_scrape import scraper_uber_eats
 from gpt_test import get_craving
+from spinner_util import spinner_start, spinner_end
+import time
+
 
 # Load variables from .env and get the API key
 load_dotenv()

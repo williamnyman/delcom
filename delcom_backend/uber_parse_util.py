@@ -18,6 +18,10 @@ def parse_uber_getSearchFeedV1(data):
     Returns:
     restaurants (list of dicts) | Each dict contains 'title' and 'storeUuid' of a restaurant
     """
+
+    if data.get("data", {}).get("feedItems", [{}])[0].get("uuid") == "no-results-found-for-search-refresh":
+        return None
+
     # create empty list to hold restaurant data
     restaurants = []
 

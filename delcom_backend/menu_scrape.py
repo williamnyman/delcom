@@ -7,7 +7,7 @@ import time
 def scraper_uber_eats():
     # Constants: address/food, cookies/headers
     ADDRESS = "1042 Clay St, San Francisco. CA"
-    FOOD = "Burrito"
+    FOOD = "cheesesteak"
 
     cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
     headers = {
@@ -22,13 +22,9 @@ def scraper_uber_eats():
     # Step 1) getSearchFeedV1: get restaurants that match the food query
     URLgetSearchFeedV1 = "https://www.ubereats.com/_p/api/getSearchFeedV1"
 
-    PAYLOADgetSearchFeedV1 = {
-        # Only userQuery changes
-        "userQuery": FOOD,
-        "date": "",
-        "startTime": 0,
-        "endTime": 0,
-        "sortAndFilters": [
+
+    backup_sortAndFilters = {
+        "bestOverall": [
             {
                 "uuid": "f844706c-2b1b-4db2-b40a-13d43cb338da",  # Sort/filter category
                 "options": [
@@ -36,6 +32,38 @@ def scraper_uber_eats():
                 ]
             }
         ],
+        "under30Min": [
+            {
+                'uuid': 'cc5cdb95-a6e6-4371-8d10-a07c2175e509',
+                'options': [
+                    {
+                        'uuid': 'cc5cdb95-a6e6-4371-8d10-a07c2175e510',
+                    },
+                ],
+            },
+        ],
+        "ratingOver4_5": [
+            {
+                'uuid': 'b19c8978-203c-4a89-a23e-e4842febe4ff',
+                'options': [
+                    {
+                        'uuid': '2c7cf7ef-730f-431f-9072-26bc39f7c043',
+                    },
+                ],
+            }
+        ],
+        "default": []
+    }
+
+    
+
+    PAYLOADgetSearchFeedV1 = {
+        # Only userQuery changes
+        "userQuery": FOOD,
+        "date": "",
+        "startTime": 0,
+        "endTime": 0,
+        "sortAndFilters": [], # placeholder for sortAndFilters
         "vertical": "ALL",  
         "displayType": "SEARCH_RESULTS",
         "searchSource": "SEARCH_BAR",
@@ -45,8 +73,14 @@ def scraper_uber_eats():
         "recaptchaToken": ""
     }
 
-    response = requests.post(URLgetSearchFeedV1, headers=headers, json=PAYLOADgetSearchFeedV1)
-    restaurants = parse_uber_getSearchFeedV1(response.json())
+    for name, filterID in backup_sortAndFilters.items():
+        print("Searching for restaurants with filter:", name)
+        PAYLOADgetSearchFeedV1["sortAndFilters"] = filterID
+        response = requests.post(URLgetSearchFeedV1, headers=headers, json=PAYLOADgetSearchFeedV1)
+        restaurants = parse_uber_getSearchFeedV1(response.json())
+        if restaurants is not None:
+            break
+
 
     for restaurant in restaurants:
         print("NEW RESTAURANT" + "----------------------"*20 + restaurant['title'])

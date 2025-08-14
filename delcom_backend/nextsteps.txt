@@ -1,5 +1,5 @@
 menu_scrape.py/uber_parse_util.py
-    - create an alternative ranking system in case the best overall returns no results
+    - **** stuck on empty best overall still returning restaurants ***** create an alternative ranking system in case the best overall returns no results
     - include terms related to food terms (eg cheeseburger ~ burger) to avoid overfitting within-restaurant search results (method for this is in a chat)
         - eg. Mos grill has no menu item with "cheeseburger" but has many cheeseburgers 
 

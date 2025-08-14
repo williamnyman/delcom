@@ -25,7 +25,7 @@ def get_cookie_and_csrf(address):
 
     with sync_playwright() as p:
         # Launch the browser
-        browser = p.chromium.launch(headless=False, slow_mo=0) 
+        browser = p.chromium.launch(headless=True, slow_mo=0) 
         context = browser.new_context()
         page = context.new_page()
 

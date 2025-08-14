@@ -8,6 +8,7 @@ from gpt_test import get_craving
 from spinner_util import spinner_start, spinner_end
 import time
 
+# need to develop 
 
 # Load variables from .env and get the API key
 load_dotenv()
@@ -22,7 +23,7 @@ def get_embedding(text: str) -> list[float]:
     )
     return response.data[0].embedding
 
-CRAVING = get_craving() # craving pulled from gpt_test.py
+CRAVING = get_craving()
 
 EMB_CRAVING = get_embedding(CRAVING)
 

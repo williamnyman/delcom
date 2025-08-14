@@ -21,6 +21,7 @@ def scraper_uber_eats():
 
     # Step 1) getSearchFeedV1: get restaurants that match the food query
     URLgetSearchFeedV1 = "https://www.ubereats.com/_p/api/getSearchFeedV1"
+
     PAYLOADgetSearchFeedV1 = {
         # Only userQuery changes
         "userQuery": FOOD,

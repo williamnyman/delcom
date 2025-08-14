@@ -1,0 +1,14 @@
+menu_scrape.py/uber_parse_util.py
+    - create an alternative ranking system in case the best overall returns no results
+    - include terms related to food terms (eg cheeseburger ~ burger) to avoid overfitting within-restaurant search results (method for this is in a chat)
+        - eg. Mos grill has no menu item with "cheeseburger" but has many cheeseburgers 
+
+authentication_util.py
+    - find way to make sure that cookies are retrieved 100% of time and not getting caught on cant click find food button or other issues
+        - run tests (cut off code somewhere and try and get the cookies like 1000 times and see how successful)
+
+gpt_test.py
+    - develop way to take ambiguous craving and begin scrape process
+        - for instance a craving can be labeled "burger" so we can search for burger, so find way to begin process for non-explicit cravings
+
+ranker.py

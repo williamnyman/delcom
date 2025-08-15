@@ -98,7 +98,6 @@ def scraper_uber_eats():
         response2 = requests.post(URLgetStoreV1, headers=headers, json=PAYLOADgetStoreV1)
         components = parse_uber_getStoreV1(response2.json())
 
-
         # Step 3) getInStoreSearchV1: get menu items that match the food query
         URLgetInStoreSearchV1 = "https://www.ubereats.com/_p/api/getInStoreSearchV1"
         PAYLOADgetInStoreSearchV1 = {
@@ -141,15 +140,13 @@ def scraper_uber_eats():
                 'storeUuid': restaurant['storeUuid'],
                 'sectionUuid': menu_item['sectionuuid'],
                 'subsectionUuid': menu_item['subsectionuuid'],
-                'menuItemUuid': menu_item['menuitemuuid']
-                
+                'menuItemUuid': menu_item['menuitemuuid']        
             }
 
             response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
             menu_item_details = parse_uber_getMenuItemV1(response4.json())
             item_name = menu_item_details['title']
             item_desc = menu_item_details['description']
-
 
             customizations = menu_item_details['customizations']
             string = ""
@@ -158,8 +155,6 @@ def scraper_uber_eats():
                 string += ", ".join(customization['options']) + "; "
             customizations = string.strip("; ")
 
-            
-            
             restaurant_name = restaurant['title']
             restaurant_tags = components['categories']
             rating = components['rating']

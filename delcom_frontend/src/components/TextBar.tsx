@@ -1,7 +1,7 @@
 {
   /* Text for users to put their requests into */
 }
-import React, {useRef, useEffect} from 'react';
+import React , {useRef, useEffect} from 'react';
 import burgerImg from '../assets/burger.png';
 
 function TextBar() {

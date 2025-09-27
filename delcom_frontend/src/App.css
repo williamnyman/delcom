@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  margin: 0; /* remove browser default whitespace */
+  background-color: #1D3557; /* your app background */
+}
+
+/* styling for title and subtitle*/
+.title {
+    margin: 0; /* remove default margin */
+    color: white; /* title text color */
+    font-family: 'Poppins',sans-serif; /* title font */ 
+}
+
+.bar {
+    background-color: white;
+    color: #1D3557;
+    border: 2px solid;
+    border-color: #457B9D;
+    border-radius: 5px;
+    width: 60%;  
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    min-height: 26px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.bar::placeholder{
+    color: #1D3557;
+    font-family: monospace;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bar:focus {
+    outline: none; /* remove default focus outline */
+    border-color: #F4A261; /* change border color on focus */
+    box-shadow: 0 0 5px #F4A261; /* add a subtle glow effect */
+}
+
+.bar.address {
+    
+    resize: none;
+}
+
+.bar.text{
+    resize: none;
+    min-height: 26px;
+}
+
+.submit-button {
+  background-color: #457B9D;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+
+.submit-button:hover {
+  background-color: #F4A261;
+  box-shadow: 0 0 5px #F4A261; /* add a subtle glow effect */
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;   /* stack children vertically */
+  align-items: center;      /* center horizontally */
+  justify-content: flex-start; /* start from the top */
+  padding: 40px 20px;       /* space around edges */
+  gap: 20px;                /* consistent spacing between children */
+  text-align: center;       /* center text inside */
+}
+
+

@@ -1,8 +1,8 @@
-{/* Delcom description */}
+/* Delcom description */
 
 function Subtitle() {
     return (
-        <h1>The Food Delivery Comparison Site</h1>
+        <h1 className="title">The Food Delivery Comparison Site</h1>
     );
 }
 

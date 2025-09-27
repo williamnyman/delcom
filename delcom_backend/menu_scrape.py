@@ -6,8 +6,8 @@ import time
 
 def scraper_uber_eats():
     # Constants: address/food, cookies/headers
-    ADDRESS = "1042 Clay St, San Francisco. CA"
-    FOOD = "cheesesteak"
+    ADDRESS = "857 Greenwich St, San Francisco. CA"
+    FOOD = "pizza"
 
     cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
     headers = {

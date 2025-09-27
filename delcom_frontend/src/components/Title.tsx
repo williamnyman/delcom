@@ -1,9 +1,9 @@
-{
-  /* Delcom Title */
-}
+/* Delcom Title */
+
 
 function Title() {
-  return <h1 className="title">Delcom</h1>;
+  return <h1 className="title" style={{fontFamily: 'Poppins'}}>
+    Delcom</h1>;
 }
 
 export default Title;

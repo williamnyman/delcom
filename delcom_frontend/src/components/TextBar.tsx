@@ -1,60 +1,52 @@
-{
-  /* Text for users to put their requests into */
-}
-import React , {useRef, useEffect} from 'react';
-import burgerImg from '../assets/burger.png';
+import React, { useState, useRef, useEffect } from "react";
 
 function TextBar() {
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const maxHeight = 200; // Maximum height in pixels
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const maxChars = 400; // maximum characters
+  const [text, setText] = useState(""); // track textarea content
 
-  const handleInput = () => {
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setText(value);
+
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto"; // Reset height
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // Set to scroll height
-    
+      textareaRef.current.style.height = "auto"; // reset height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
 
-      if (textareaRef.current.scrollHeight > maxHeight) {
-          textareaRef.current.style.overflowY = "auto";
-          textareaRef.current.style.height = `${maxHeight}px`;
-      } 
-      else {
-          textareaRef.current.style.overflowY = "hidden";
+      if (textareaRef.current.scrollHeight > 200) {
+        textareaRef.current.style.overflowY = "auto";
+        textareaRef.current.style.height = `200px`;
+      } else {
+        textareaRef.current.style.overflowY = "hidden";
       }
     }
-  }
+  };
 
-  React.useEffect(() => {
-    handleInput(); // Adjust height on mount
+  // adjust height on mount
+  useEffect(() => {
+    if (textareaRef.current) {
+      handleInput({ target: textareaRef.current } as React.ChangeEvent<HTMLTextAreaElement>);
+    }
   }, []);
 
   return (
-    <form style={{ marginTop: "20px" }}>
-      <div className="form-group">
-        <textarea
-          ref ={textareaRef}
-          placeholder='Enter your cravings here...'
-          onInput={handleInput}
-          rows={1}
-          className="form-control"
-          
-          style={{  borderRadius: "10px",
-                    backgroundImage: `url(${burgerImg})`,
-                    backgroundPosition: "8px 5px",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "25px 25px",
-                    paddingLeft: "40px",
-                    backgroundColor: "#c6cfd8ff",
-                    width: "60%",
-                    margin: "0 auto",
-                    overflow: "hidden",
-                    border: "2px solid black",
-                    resize: "none", // Prevent resizing
-                    maxHeight: "200px", // Limit height
-                  }}
-        />
+    <div style={{ width: "60%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <textarea
+        className="bar text"
+        ref={textareaRef}
+        placeholder="Enter your cravings..."
+        value={text}
+        onChange={handleInput}
+        maxLength={maxChars}
+        rows={1}
+        style={{ maxHeight: 200, width: "100%" }}
+        spellCheck={false}
+      />
+
+      <div style={{ fontSize: "12px", color: "#457B9D", marginTop: "4px", alignSelf: "flex-end", fontFamily: 'Poppins' }}>
+        {text.length} / {maxChars}
       </div>
-    </form>
+    </div>
   );
 }
 

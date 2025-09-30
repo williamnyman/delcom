@@ -1,10 +1,15 @@
-/* Submit button */
+import React from "react";
 
-function SubmitButton() {
-    return (
-        <button className="submit-button">Submit</button>
+interface SubmitButtonProps {
+  onClick: () => void; // function passed from parent
+}
 
-    );
+function SubmitButton({ onClick }: SubmitButtonProps) {
+  return (
+    <button className="submit-button" onClick={onClick}>
+      Submit
+    </button>
+  );
 }
 
 export default SubmitButton;

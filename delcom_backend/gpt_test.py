@@ -42,9 +42,9 @@ Meta: max price $<num>, max ETA <min> min, min rating <num>
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
-def get_craving():
-    craving = input("Enter your food craving: ")
-
+# get the users craving
+# need to get it from the frontend 
+def get_craving(craving):
     # Make a request
     response = client.chat.completions.create(
         model="gpt-4o",

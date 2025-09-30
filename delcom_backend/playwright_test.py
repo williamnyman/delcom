@@ -5,7 +5,7 @@ address = '857 greenwich St San Francisco, CA'
 
 with sync_playwright() as p:
 
-    browser = p.chromium.launch(headless=True, slow_mo=0)
+    browser = p.chromium.launch(slow_mo=0)
     page = browser.new_page()
     page.goto("https://ubereats.com")
 

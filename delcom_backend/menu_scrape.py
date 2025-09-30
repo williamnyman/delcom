@@ -4,10 +4,11 @@ from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1, p
 from spinner_util import spinner_start, spinner_end
 import time
 
-def scraper_uber_eats():
+# add food as a parameter
+def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
     # Constants: address/food, cookies/headers
-    ADDRESS = "857 Greenwich St, San Francisco. CA"
-    FOOD = "pizza"
+    # ADDRESS = "857 Greenwich St, San Francisco. CA"
+    #FOOD = "pizza"
 
     cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
     headers = {
@@ -81,9 +82,15 @@ def scraper_uber_eats():
         if restaurants is not None:
             break
 
+    total_restaurants = len(restaurants)
+    
 
-    for restaurant in restaurants:
+    for i, restaurant in enumerate(restaurants, start = 1):
+        if progress_callback:
+            progress = 25 + int((i / total_restaurants) * 70)
+            progress_callback(progress)
         print("NEW RESTAURANT" + "----------------------"*20 + restaurant['title'])
+
 
         # Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
         URLgetStoreV1 = "https://www.ubereats.com/_p/api/getStoreV1"
@@ -117,6 +124,8 @@ def scraper_uber_eats():
         menu_items = parse_uber_getInStoreSearchV1(response3.json())
         j = 0 # for debugging
 
+      
+        
         for menu_item in menu_items[:10]:
 
             # Step 4) getMenuItemV1: get detailed information about each menu item
@@ -174,7 +183,10 @@ def scraper_uber_eats():
 
             print("\n" + encoding + "\n")
 
+        
+
     print("Total candidates found:", len(candidates))
+
 
     return candidates
 

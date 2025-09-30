@@ -41,7 +41,7 @@ def get_cookie_and_csrf(address):
         # Wait for the address input to be visible (wait for popup to be closed) and fill it
         page.wait_for_selector('input#location-typeahead-home-input', state='visible')
         page.fill('input#location-typeahead-home-input', address)
-        print("Address filled ✓")
+        print("Address filled ✓" + address)
 
         # Click the find food button, retry a few times in case the button is not immediately available (can be slow sometimes)
         #for i in range(5):

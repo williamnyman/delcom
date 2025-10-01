@@ -74,4 +74,12 @@ body {
   text-align: center;       /* center text inside */
 }
 
+.funfact {
+    color: #457B9D;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    margin-top: 20px;
+    min-height: 24px; /* to prevent layout shift */
+}
+
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 interface LocationState {
-  result: any; // can refine later
+    result: any; // can refine later
 }
 
 function ResultsPage() {

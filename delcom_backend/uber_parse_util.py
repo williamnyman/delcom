@@ -71,45 +71,6 @@ def parse_uber_getStoreV1(data):
     return components 
 
 def parse_uber_getStoreV1_for_items(data):
-    # need this as a return
-    # 'sectionUuid': menu_item['sectionuuid'],
-    # 'subsectionUuid': menu_item['subsectionuuid'],
-    # 'menuItemUuid': menu_item['menuitemuuid']
-
-    menu_items = []
-
-    for section_id, section_content in data["catalogSectionsMap"].items():
-        for block in section_content:
-            catalog_items = block.get("payload", {}).get("standardItemsPayload", {}).get("catalogItems", [])
-            for item in catalog_items:
-                section_uuid = item.get("sectionUuid")
-                subsection_uuid = item.get("subsectionUuid")
-                menuitem_uuid = item.get("uuid")
-                menu_items.append({
-                    "sectionUuid": section_uuid,
-                    "subsectionUuid": subsection_uuid,
-                    "menuItemUuid": menuitem_uuid
-                })
-
-
-
-    # menu_items = []
-    # item_ids = {
-    #     "storeuuid": "",
-    #     "sectionuuid": "",
-    #     "subsectionuuid": "",
-    #     "menuitemuuid": ""
-    # }
-
-    # data1 = data['data']
-    # data2 = data1['catalogSectionsMap']
-
-
-    # item_ids
-
-    return menu_items
-
-def parse_uber_getInStoreSearchV1(data):
     """
     Description:
     Parses a JSON file (as a dict) and extracts components needed for getMenuItemV1 API call

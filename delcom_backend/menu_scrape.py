@@ -1,6 +1,6 @@
 import requests
 from authentication_util import get_cookie_and_csrf
-from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1,parse_uber_getStoreV1_for_items, parse_uber_getInStoreSearchV1, parse_uber_getMenuItemV1
+from uber_parse_util import parse_uber_getSearchFeedV1, parse_uber_getStoreV1,parse_uber_getStoreV1_for_items, parse_uber_getMenuItemV1 #, parse_uber_getInStoreSearchV1
 from spinner_util import spinner_start, spinner_end
 import time
 
@@ -92,7 +92,8 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         print("NEW RESTAURANT" + "----------------------"*20 + restaurant['title'])
 
 
-        # Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
+# Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
+# and also get menu items now!
         URLgetStoreV1 = "https://www.ubereats.com/_p/api/getStoreV1"
         PAYLOADgetStoreV1 = {
             # Only storeUuid changes
@@ -106,37 +107,11 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
         response2 = requests.post(URLgetStoreV1, headers=headers, json=PAYLOADgetStoreV1)
         components = parse_uber_getStoreV1(response2.json())
-        # uncomment for new
-        # menu_items = parse_uber_getStoreV1_for_items(response2.json())
-
-
-
-# need to change step 3 to just get all menu items rather than based on query
-        # Step 3) getInStoreSearchV1: get menu items that match the food query
-        URLgetInStoreSearchV1 = "https://www.ubereats.com/_p/api/getInStoreSearchV1"
-        PAYLOADgetInStoreSearchV1 = {
-            # These dont change
-            'diningMode': 'DELIVERY',
-            'isGrocery': False,
-            'entrypointContext': 'IN_STORE_SEARCH',
-
-            # These do change
-            'sectionUUIDs': components['sectionUUIDs'],
-            'storeUUIDs': components['storeUUIDs'],
-            'userQuery': FOOD,
-            'targetLocation': components['location'],
-        }
-
-        response3 = requests.post(URLgetInStoreSearchV1, headers=headers, json=PAYLOADgetInStoreSearchV1)
-        # am going to need to change getInStoreSearchV1 to just return all menu items
-        menu_items = parse_uber_getInStoreSearchV1(response3.json())
-
-# --------------------------------------------------------------------------
-      
+        menu_items = parse_uber_getStoreV1_for_items(response2.json())
         
-        for menu_item in menu_items[:10]:
+        for menu_item in menu_items[:20]:
 
-            # Step 4) getMenuItemV1: get detailed information about each menu item
+# Step 3) getMenuItemV1: get detailed information about each menu item
             URLgetMenuItemV1 = "https://www.ubereats.com/_p/api/getMenuItemV1"
             PAYLOADgetMenuItemV1 = {
                 # These dont change
@@ -197,12 +172,4 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
 
     return candidates
-
-# need to start constructing the following format:
-# [ITEM]
-# {item.name} — {restaurant.name}
-# Desc: {item.description}
-# Options: {customizations_flat}
-# Restaurant tags: {restaurant.tags}
-# Meta: rating {rating}, ETA {eta} min, price ${price}
 

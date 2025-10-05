@@ -50,13 +50,18 @@ def parse_uber_getStoreV1(data):
     Returns:
     components (dict) | Contains important components for in-store search: location, sectionUUIDs, storeUUIDs
     """
+
+    if data["status"] != "success":
+        return None
+
     # create empty list to hold restaurant data
     components = {}
 
     # Target location to be used in in-store search is the exact same as the one used in gotten from getStoreV1
-    components.update({"location": data["data"]["location"]})
+    #components.update({"location": data["data"]["location"]})
 
     sectionUUIDs = []
+    
     for section in data.get("data", {}).get("sections", []):
         sectionUUIDs.append(section.get("uuid", ""))
     components.update({"sectionUUIDs": sectionUUIDs})
@@ -76,11 +81,14 @@ def parse_uber_getStoreV1_for_items(data):
     Parses a JSON file (as a dict) and extracts components needed for getMenuItemV1 API call
 
     Args:
-    data (dict): JSON from getInStoreSearchV1 API response as a dict
+    data (dict): JSON from getStoreV1 API response as a dict
 
     Returns:
     items (list of dicts) | Each dict contains storeUUID, sectionUUID, menuItemUUID, subsectionUUID of a menu item
     """
+    if data["status"] != "success":
+        return None
+    
     items_list = []
 
     data = data["data"]["catalogSectionsMap"]
@@ -131,6 +139,10 @@ def parse_uber_getMenuItemV1(data):
     """
     item = data.get("data", {})
 
+    # need to add this to return then somehow get it all the way to results page via returns, cant put
+    # it in encoding tho so gonna have to figure it out
+    image_url = item["imageUrl"]
+
     # Basic fields
     title = item.get("title", "")
     description = item.get("itemDescription", "")
@@ -151,7 +163,8 @@ def parse_uber_getMenuItemV1(data):
         "title": title,
         "price": price,
         "description": description,
-        "customizations": customizations
+        "customizations": customizations,
+        
     }
 
     

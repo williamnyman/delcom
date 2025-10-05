@@ -84,7 +84,6 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
     total_restaurants = len(restaurants)
     
-
     for i, restaurant in enumerate(restaurants, start = 1):
         if progress_callback:
             progress = 25 + int((i / total_restaurants) * 70)
@@ -108,6 +107,10 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         response2 = requests.post(URLgetStoreV1, headers=headers, json=PAYLOADgetStoreV1)
         components = parse_uber_getStoreV1(response2.json())
         menu_items = parse_uber_getStoreV1_for_items(response2.json())
+
+        if components is None or menu_items is None:
+            print("Skipping restaurant due to failed data retrieval.")
+            continue
         
         for menu_item in menu_items[:20]:
 

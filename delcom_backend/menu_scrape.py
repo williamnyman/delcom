@@ -112,7 +112,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
             print("Skipping restaurant due to failed data retrieval.")
             continue
         
-        for menu_item in menu_items[:20]:
+        for menu_item in menu_items[:5]: #[:20]:
 
 # Step 3) getMenuItemV1: get detailed information about each menu item
             URLgetMenuItemV1 = "https://www.ubereats.com/_p/api/getMenuItemV1"
@@ -140,6 +140,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
             response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
             menu_item_details = parse_uber_getMenuItemV1(response4.json())
+            # now details includes title, price, desc, customizations, image url
             item_name = menu_item_details['title']
             item_desc = menu_item_details['description']
 
@@ -165,7 +166,9 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
                 f"Meta: rating {rating}, ETA {eta} min, price ${price}"
             )
 
-            candidates.append(encoding)
+            item_url = menu_item_details['image_url']
+
+            candidates.append((encoding, item_url))
 
             print("\n" + encoding + "\n")
 

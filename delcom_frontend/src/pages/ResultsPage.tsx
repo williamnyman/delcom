@@ -21,8 +21,7 @@ function ResultsPage() {
       <BasicCard
         image={
           /* going to pull this from backend - this is just some random photo of some menu item*/
-          "https://tb-static.uber.com/prod/image-proc/processed_images/0cfdd528f16f1e1f1a79a9e8a27d08d1/c67fc65e9b4e16a553eb7574fba090f1.jpeg"
-        }
+          data.image_url}
         food={data.item_name || "Food Name"}
         restaurant={data.restaurant_name || "Food Name"}
         meta_price={`Price: $${data.meta?.price || "Price"} `}

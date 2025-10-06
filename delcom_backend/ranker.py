@@ -14,7 +14,7 @@ def parse_item_string(encoding: str):
     Parses an encoded item string into structured fields.
     """
 
-    lines = encoding.strip().split("\n")
+    lines = encoding[0].strip().split("\n")
     print("Parsing item string lines:", lines)
     
     # First line is [ITEM], skip it
@@ -64,7 +64,8 @@ def parse_item_string(encoding: str):
             "rating": rating,
             "eta": eta,
             "price": price
-        }
+        },
+        "image_url": encoding[1]
     }
 
 
@@ -117,6 +118,7 @@ def ranker_main(craving, address, progress_callback=None):
     # need the logic here to get the first food name 
     # and then can put it in the scraper VVVV
 
+    # bunch of pairs of (encoding string, image url)
     candidates = scraper_uber_eats(food_title, address, progress_callback)
 
     if progress_callback: progress_callback(95)
@@ -125,15 +127,17 @@ def ranker_main(craving, address, progress_callback=None):
     best_similarity = -1
 
     for candidate in candidates:
-        # Get the embedding for the candidate
-        candidate_embedding = get_embedding(candidate, client)
+        # Get the embedding for the candidate encoding string
+        candidate_embedding = get_embedding(candidate[0], client)
         
         # Calculate cosine similarity
         similarity = cosine_similarity([EMB_CRAVING], [candidate_embedding])[0][0]
         
         if similarity > best_similarity:
             best_similarity = similarity
+            # still is a pair (encoding, image url)
             best_candidate = candidate
+            
 
 
     print("Best candidate string:", best_candidate)

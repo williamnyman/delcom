@@ -27,7 +27,7 @@ def parse_uber_getSearchFeedV1(data):
 
     # Extracting restaurant names and UUIDs from the JSON data
     feedItems = data.get("data", {}).get("feedItems", [])
-    for item in feedItems[:10]:
+    for item in feedItems[:5]: #[:10]:
         store_name = item.get("store", {}).get("title", {}).get("text", "")
         store_uuid = item.get("store", {}).get("storeUuid", "")
 
@@ -141,7 +141,14 @@ def parse_uber_getMenuItemV1(data):
 
     # need to add this to return then somehow get it all the way to results page via returns, cant put
     # it in encoding tho so gonna have to figure it out
-    image_url = item["imageUrl"]
+    if "imageUrl" in data["data"] and data["data"]["imageUrl"]:
+        image_url = data["data"]["imageUrl"]
+    elif "images" in data["data"] and data["data"]["images"]:
+        image_url = data["data"]["images"][0].get("imageUrl")
+
+    print(image_url)
+    item = data.get("data", {})
+    
 
     # Basic fields
     title = item.get("title", "")
@@ -164,7 +171,7 @@ def parse_uber_getMenuItemV1(data):
         "price": price,
         "description": description,
         "customizations": customizations,
-        
+        "image_url": image_url
     }
 
     

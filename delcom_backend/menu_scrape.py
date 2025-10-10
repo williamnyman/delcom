@@ -11,6 +11,10 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
     #FOOD = "pizza"
 
     cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
+
+    if cookie == -1 or csrf_token == -1:
+        return -1
+
     headers = {
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
@@ -18,12 +22,15 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         "x-csrf-token": csrf_token,
     }
 
+    # define empty list of candidate foods that will be compared to craving
     candidates = []
 
     # Step 1) getSearchFeedV1: get restaurants that match the food query
     URLgetSearchFeedV1 = "https://www.ubereats.com/_p/api/getSearchFeedV1"
 
-
+    # sorting filters which could be used but for now are just using best overall, 
+    # eventually incorporate these with user preferences or availability
+    # (if bestOverall returns no results, try under30Min, etc)
     backup_sortAndFilters = {
         "bestOverall": [
             {
@@ -57,7 +64,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
     }
 
     
-
+    # neccessary payload for the post request
     PAYLOADgetSearchFeedV1 = {
         # Only userQuery changes
         "userQuery": FOOD,
@@ -74,6 +81,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         "recaptchaToken": ""
     }
 
+    # loop to try different filters, just doing bestOverall for now
     for name, filterID in backup_sortAndFilters.items():
         print("Searching for restaurants with filter:", name)
         PAYLOADgetSearchFeedV1["sortAndFilters"] = filterID
@@ -82,13 +90,13 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         if restaurants is not None:
             break
 
+    # beginning restaraunt loop
     total_restaurants = len(restaurants)
-    
     for i, restaurant in enumerate(restaurants, start = 1):
         if progress_callback:
             progress = 25 + int((i / total_restaurants) * 70)
             progress_callback(progress)
-        print("NEW RESTAURANT" + "----------------------"*20 + restaurant['title'])
+        print("NEW RESTAURANT: "  + restaurant['title'])
 
 
 # Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
@@ -103,16 +111,45 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         }
 
 
-
+        # get response, and parse getStore for store info then getStore for menu items
         response2 = requests.post(URLgetStoreV1, headers=headers, json=PAYLOADgetStoreV1)
         components = parse_uber_getStoreV1(response2.json())
-        menu_items = parse_uber_getStoreV1_for_items(response2.json())
 
+        if components is None:
+            print("Skipping restaurant due to failed data retrieval.")
+            continue
+
+# Step 3) getInStoreSearchV1: get some shit for specific search
+        URLgetInStoreSearchV1 = "https://www.ubereats.com/_p/api/getInStoreSearchV1"
+        PAYLOADgetInStoreSearchV1 = {
+            # These dont change
+            'diningMode': 'DELIVERY',
+            'isGrocery': False,
+            'entrypointContext': 'IN_STORE_SEARCH',
+
+            # These do change
+            'sectionUUIDs': components['sectionUUIDs'],
+            'storeUUIDs': components['storeUUIDs'],
+            'userQuery': FOOD,
+            'targetLocation': components['location'],
+        }
+
+        response10 = requests.post(URLgetInStoreSearchV1, headers=headers, json=PAYLOADgetInStoreSearchV1)
+        menu_items = parse_uber_getStoreV1_for_items(response10.json())
+        
+        if menu_items:
+            print("got good results from response10, moving on ")
+            print(menu_items)
+        else:
+            menu_items = parse_uber_getStoreV1_for_items(response2.json())
+            print("menu items come from response 2")
+    
         if components is None or menu_items is None:
             print("Skipping restaurant due to failed data retrieval.")
             continue
         
-        for menu_item in menu_items[:5]: #[:20]:
+        # beginning menu item loop for current restaurant
+        for menu_item in menu_items[:5]: #[:5]:
 
 # Step 3) getMenuItemV1: get detailed information about each menu item
             URLgetMenuItemV1 = "https://www.ubereats.com/_p/api/getMenuItemV1"
@@ -140,7 +177,10 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
             response4 = requests.post(URLgetMenuItemV1, headers=headers, json=PAYLOADgetMenuItemV1)
             menu_item_details = parse_uber_getMenuItemV1(response4.json())
+            # menu_item_details is info about each menu item
             # now details includes title, price, desc, customizations, image url
+
+            # constructing the encoding for each menu item
             item_name = menu_item_details['title']
             item_desc = menu_item_details['description']
 
@@ -166,11 +206,21 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
                 f"Meta: rating {rating}, ETA {eta} min, price ${price}"
             )
 
+            # add menu item encoding and image url to candidates list
             item_url = menu_item_details['image_url']
+            # add uber eats url to the response
 
-            candidates.append((encoding, item_url))
+            url_info = {
+                "image_url":menu_item_details['image_url'],
+                "action_url":restaurant['actionUrl'],
+                "store_uuid":restaurant['storeUuid'],
+                "section_uuid":menu_item['sectionuuid'],
+                "subsection_uuid":menu_item['subsectionuuid'],
+                "item_uuid":menu_item['menuitemuuid'],
+            }
+            candidates.append((encoding, url_info))
 
-            print("\n" + encoding + "\n")
+            #print("\n" + encoding + "\n")
 
         
 

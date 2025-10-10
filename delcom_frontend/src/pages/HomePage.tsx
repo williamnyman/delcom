@@ -1,76 +1,62 @@
-/* Main app component */
-/*
-import AddressBar from '../components/AddressBar'
-import Subtitle from '../components/Subtitle'
-import Title from '../components/Title'
-import Textbar from '../components/TextBar'
-import SubmitButton from '../components/SubmitButton'
-
-
-function HomePage() {
-    const [craving, setCraving] = React.useState('');
-
-    const handleSubmit = async () => {
-    const response = await fetch("http://localhost:8000/api/craving", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ address, craving }),
-    });
-
-
-    return(
-      <div className='main-content'>
-        <Title />
-        <Subtitle />
-        <AddressBar />
-        <Textbar />
-        <SubmitButton />
-      </div>
-
-
-    )
-}
-
-export default HomePage
-*/
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import AddressBar from '../components/AddressBar';
+import Subtitle from '../components/Subtitle';
+import Title from '../components/Title';
+import TextBar from '../components/TextBar';
+import SubmitButton from '../components/SubmitButton';
+import HowToPop from '../components/HowToPop'; // import the popup component
+import mail from "../assets/file.svg"
+import linkedin2 from "../assets/linkedin2.png"
+import mark from "../assets/question-sign.png"
 
-import AddressBar from '../components/AddressBar'
-import Subtitle from '../components/Subtitle'
-import Title from '../components/Title'
-import TextBar from '../components/TextBar'
-import SubmitButton from '../components/SubmitButton'
 
 function HomePage() {
   const [address, setAddress] = React.useState("");
   const [craving, setCraving] = React.useState("");
+  const [showHowTo, setShowHowTo] = React.useState(true);
   const navigate = useNavigate();
 
-const handleSubmit = async () => {
-  try {
-    await fetch("http://127.0.0.1:8000/api/craving", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ address, craving }),
-    });
+  const handleSubmit = async () => {
+    try {
+      await fetch("http://127.0.0.1:8000/api/craving", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address, craving }),
+      });
 
-    navigate("/loading"); // go to loading page first
-  } catch (error) {
-    console.error("Error submitting craving:", error);
-  }
-};
+      navigate("/loading"); // go to loading page first
+    } catch (error) {
+      console.error("Error submitting craving:", error);
+    }
+  };
 
   return (
-    <div className="main-content">
+  <div className="page-container">
+    <div className="top-section">
+      <HowToPop showHowTo = {showHowTo} setShowHowTo={setShowHowTo}/> {/* popup will show on page load */}
       <Title />
       <Subtitle />
       <AddressBar value={address} onChange={setAddress} />
       <TextBar value={craving} onChange={setCraving} />
       <SubmitButton onClick={handleSubmit} />
     </div>
-  );
+
+    <div className="divforthreebuttons">
+      <button className="threebutton" onClick={() => window.open("mailto:williamhnyman@gmail.com")}>
+        <img src={mail} alt="icon" className="button-icon" />
+      </button>
+      <button className="threebutton" onClick={() => window.open("https://www.linkedin.com/in/william-nyman/")}>
+        <img src={linkedin2} alt="icon" className="button-icon" />
+      </button>
+      <button className="threebutton" onClick={() => setShowHowTo(true)}>
+        <img src={mark} alt="icon" className="button-icon" />
+      </button>
+    </div>
+
+  </div>
+);
+
 }
 
 export default HomePage;

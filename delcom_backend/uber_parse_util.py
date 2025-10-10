@@ -27,13 +27,16 @@ def parse_uber_getSearchFeedV1(data):
 
     # Extracting restaurant names and UUIDs from the JSON data
     feedItems = data.get("data", {}).get("feedItems", [])
-    for item in feedItems[:5]: #[:10]:
+    for item in feedItems[:5]: #[:5]:
         store_name = item.get("store", {}).get("title", {}).get("text", "")
         store_uuid = item.get("store", {}).get("storeUuid", "")
+        action_url = item.get("store", {}).get("actionUrl", "")
+
 
         restaurants.append({
             "title": store_name,
-            "storeUuid": store_uuid
+            "storeUuid": store_uuid,
+            "actionUrl": action_url
         })
 
     return restaurants
@@ -58,12 +61,14 @@ def parse_uber_getStoreV1(data):
     components = {}
 
     # Target location to be used in in-store search is the exact same as the one used in gotten from getStoreV1
-    #components.update({"location": data["data"]["location"]})
+    components.update({"location": data["data"]["location"]})
 
     sectionUUIDs = []
     
     for section in data.get("data", {}).get("sections", []):
         sectionUUIDs.append(section.get("uuid", ""))
+
+    
     components.update({"sectionUUIDs": sectionUUIDs})
 
     components.update({"storeUUIDs": [data["data"]["uuid"]]})    
@@ -145,11 +150,11 @@ def parse_uber_getMenuItemV1(data):
         image_url = data["data"]["imageUrl"]
     elif "images" in data["data"] and data["data"]["images"]:
         image_url = data["data"]["images"][0].get("imageUrl")
+    else:
+        image_url = ""
 
-    print(image_url)
-    item = data.get("data", {})
+    # if image_url: print(image_url)
     
-
     # Basic fields
     title = item.get("title", "")
     description = item.get("itemDescription", "")

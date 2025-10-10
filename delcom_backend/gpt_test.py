@@ -11,9 +11,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 
 
-
-
-
+# openai prompt for craving normalization
 prompt = """
 You are a data normalizer for a food matching app.
 
@@ -29,6 +27,10 @@ Rules:
   If nothing to add or remove, leave that part empty.
 - Restaurant tags: list any preferred cuisines or restaurant types or vibes (comma-separated), otherwise leave empty.
 - Meta: include constraints like max price, max ETA, min rating
+
+If the craving does not list an explicit core food infer a core food based on the rest of their craving
+If the users craving is not sensible return "ERROR" in plain text. By not sensible I mean it is not related to food or is an
+obivous trolling attempt. Ambiguous cravings should be infered as mentioned above. 
 
 Format:
 [CRAVING]
@@ -48,12 +50,14 @@ def get_craving(craving):
     # Make a request
     response = client.chat.completions.create(
         model="gpt-4o",
-        messages=[                           # conversation history (including instructions)
+        messages=[                       
             {"role": "system", "content": prompt},
             {"role": "user", "content": craving}        
         ],
 
     )
 
+    # return the craving encoding
     craving_encoding = response.choices[0].message.content.strip()
+    print(craving_encoding)
     return craving_encoding

@@ -1,8 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
-  margin: 0; /* remove browser default whitespace */
-  background-color: #1D3557; /* your app background */
+  margin: 0;
+  background-color: #1D3557;
+}
+
+.page-container {
+  min-height: 100vh;            /* fill screen */
+  display: flex;
+  flex-direction: column;       /* vertical stack */
+  justify-content: space-between; /* top stuff at start, buttons at bottom */
 }
 
 /* styling for title and subtitle*/
@@ -82,4 +89,74 @@ body {
     min-height: 24px; /* to prevent layout shift */
 }
 
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(29, 53, 87, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: 'Poppins', sans-serif;
+}
 
+.popupContent {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  overflow-y: auto;
+  max-height: 80%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.results-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #E63946;
+  transition: color 0.2s ease;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 20px;
+  text-align: center;
+}
+
+.divforthreebuttons {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  gap: 10px;
+  margin-bottom: 20px;    /* padding off bottom edge */
+}
+
+.threebutton {
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  border: 2px solid #457B9D;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  font-family: 'Poppins';
+  font-size: 32px;
+}
+
+.button-icon {
+  width: 100%;       /* fill the button width */
+  height: 100%;      /* fill the button height */
+  object-fit: contain; /* keeps aspect ratio, no stretching */
+}

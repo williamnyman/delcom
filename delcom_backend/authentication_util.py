@@ -7,6 +7,7 @@ Utility functions for handling authentication including cookie and CSRF token re
 # imports
 import requests
 from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
 def get_cookie_and_csrf(address):
     '''
@@ -23,6 +24,7 @@ def get_cookie_and_csrf(address):
     cookie_str, csrf_cookie (string, string) | cookie string, CSRF token string
     '''
 
+    
     with sync_playwright() as p:
         # Launch the browser
         browser = p.chromium.launch(headless=True, slow_mo=0) 
@@ -41,7 +43,23 @@ def get_cookie_and_csrf(address):
         # Wait for the address input to be visible (wait for popup to be closed) and fill it
         page.wait_for_selector('input#location-typeahead-home-input', state='visible')
         page.fill('input#location-typeahead-home-input', address)
-        print("Address filled ✓" + address)
+        print("Address filled ✓ " + address)
+
+        from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+
+        page.click('input#location-typeahead-home-input')
+        locator = page.locator("li:has-text('Hmm... can’t find this address. Try again?')")
+
+        # wait up to 2s to see if it appears
+        try:
+            locator.wait_for(state="visible", timeout=2000)
+            print("error! see ya!")
+            return -1, -1  # appeared within 2s → return -1
+        except PlaywrightTimeoutError:
+            # didn’t appear in 2s → continue as normal
+            pass
+
+        
 
         # Click the find food button, retry a few times in case the button is not immediately available (can be slow sometimes)
         #for i in range(5):
@@ -69,3 +87,4 @@ def get_cookie_and_csrf(address):
 
         browser.close()
         return cookie_str, csrf_cookie or "x"
+    

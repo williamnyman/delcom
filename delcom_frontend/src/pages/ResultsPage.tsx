@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import BasicCard from "../components/Card";
 import beach from "../assets/food.jpg";
@@ -195,8 +195,8 @@ function ResultsPage() {
                   <p style={styles.paragraph}>
                     <strong>Customizations:</strong>
                     <br />
-                      {selectedItem.customizations.split(";").map((group, index) => {
-                        const [title, options] = group.split(":").map(s => s.trim());
+                      {selectedItem.customizations.split(";").map((group: string, index: number) => {
+                          const [title, options] = group.split(":").map((s: string) => s.trim());
                           return (
                             <span key={index}>
                               <strong>{title}:</strong> {options}

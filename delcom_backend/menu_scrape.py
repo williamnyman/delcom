@@ -8,7 +8,7 @@ import time
 def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
     # Constants: address/food, cookies/headers
     # ADDRESS = "857 Greenwich St, San Francisco. CA"
-    #FOOD = "pizza"
+    # FOOD = "pizza"
 
     cookie, csrf_token = get_cookie_and_csrf(ADDRESS)
 
@@ -149,7 +149,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
             continue
         
         # beginning menu item loop for current restaurant
-        for menu_item in menu_items[:5]: #[:5]:
+        for menu_item in menu_items:
 
 # Step 3) getMenuItemV1: get detailed information about each menu item
             URLgetMenuItemV1 = "https://www.ubereats.com/_p/api/getMenuItemV1"

@@ -42,17 +42,22 @@ function HomePage() {
       <SubmitButton onClick={handleSubmit} />
     </div>
 
-    <div className="divforthreebuttons">
-      <button className="threebutton" onClick={() => window.open("mailto:williamhnyman@gmail.com")}>
-        <img src={mail} alt="icon" className="button-icon" />
-      </button>
-      <button className="threebutton" onClick={() => window.open("https://www.linkedin.com/in/william-nyman/")}>
-        <img src={linkedin2} alt="icon" className="button-icon" />
-      </button>
-      <button className="threebutton" onClick={() => setShowHowTo(true)}>
-        <img src={mark} alt="icon" className="button-icon" />
-      </button>
+
+    <div className="bottom-section">
+      <p className="created-by">Created by William Nyman</p>
+      <div className="divforthreebuttons">
+        <button className="threebutton" onClick={() => window.open("mailto:williamhnyman@gmail.com")}>
+          <img src={mail} alt="icon" className="button-icon" />
+        </button>
+        <button className="threebutton" onClick={() => window.open("https://www.linkedin.com/in/william-nyman/")}>
+          <img src={linkedin2} alt="icon" className="button-icon" />
+        </button>
+        <button className="threebutton" onClick={() => setShowHowTo(true)}>
+          <img src={mark} alt="icon" className="button-icon" />
+        </button>
+      </div>
     </div>
+
 
   </div>
 );

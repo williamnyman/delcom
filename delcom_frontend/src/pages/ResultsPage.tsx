@@ -3,6 +3,10 @@ import { useLocation } from "react-router-dom";
 import BasicCard from "../components/Card";
 import beach from "../assets/food.jpg";
 import ErrorPopup from "../components/ErrorPopup";
+import { useNavigate } from "react-router-dom";
+import home from "../assets/home.png"
+
+
 
 
 interface LocationState {
@@ -39,6 +43,7 @@ function ResultsPage() {
   const location = useLocation();
   const { result } = (location.state as LocationState) || { result: null };
   const [selectedItem, setSelectedItem] = useState<null | any>(null);
+  const navigate = useNavigate();
 
   // thhe closePopup sets the selceted item to null which then makes the
   // popup de-render (or more so render as nothing)
@@ -148,9 +153,19 @@ function ResultsPage() {
               />))
             }
           </div>
+
+          <div className="divforonebutton">
+            <button
+              className="threebutton"
+              onClick={() => navigate("/")}
+            >
+              <img src={home} alt="icon" className="button-icon" />
+            </button>
+          </div>
+
        
 
-    
+        {/*------------*/}
         {selectedItem && ( 
           <div style={styles.popup}>
             <div style={{ ...styles.popupContent, display: "flex", gap: "20px", alignItems: "flex-start" }}>
@@ -214,6 +229,7 @@ function ResultsPage() {
             </div>
           </div>
         )}
+        {/*------------*/}
       </div>
   );
 }

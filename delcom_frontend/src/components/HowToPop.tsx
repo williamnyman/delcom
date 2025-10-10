@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import fakeAddressImg from "../assets/fakeAddress.png"; // your fake address image
 import vagueCravingImg from "../assets/vagueCraving.png";
 import somewhatSpecificImg from "../assets/somewhatSpecific.png";

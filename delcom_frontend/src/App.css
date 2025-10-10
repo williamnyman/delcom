@@ -101,12 +101,12 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 60%;
   background-color: rgba(29, 53, 87, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 2000;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -142,11 +142,10 @@ body {
   gap: 20px;
   text-align: center;
 }
-.results-top-section {
+.topstuff {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   gap: 20px;
   text-align: center;
 }
@@ -156,6 +155,17 @@ body {
   justify-content: center; /* center horizontally */
   gap: 10px;
   margin-bottom: 20px;    /* padding off bottom edge */
+}
+
+.divforonebutton {
+  position: fixed;     /* stick to viewport */
+  bottom: 20px;        /* distance from bottom */
+  left: 50%;           /* center horizontally */
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 1000;       /* make sure it’s above other content */
 }
 
 .threebutton {
@@ -174,4 +184,23 @@ body {
   width: 100%;       /* fill the button width */
   height: 100%;      /* fill the button height */
   object-fit: contain; /* keeps aspect ratio, no stretching */
+}
+
+.bottom-section {
+  position: fixed;       /* stay at the bottom of the viewport */
+  bottom: 20px;          /* distance from bottom */
+  left: 50%;             /* center horizontally */
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column; /* stack text above buttons */
+  align-items: center;
+  gap: 8px;              /* space between text and buttons */
+  z-index: 500;         /* above other content */
+}
+
+.created-by {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  margin: 0;
 }

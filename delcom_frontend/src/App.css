@@ -12,6 +12,13 @@ body {
   justify-content: space-between; /* top stuff at start, buttons at bottom */
 }
 
+.results-page-container {
+  min-height: 100vh;            /* fill screen */
+  display: flex;
+  flex-direction: column;       /* vertical stack */
+  justify-content: space-between; /* top stuff at start, buttons at bottom */
+}
+
 /* styling for title and subtitle*/
 .title {
     margin: 0; /* remove default margin */
@@ -132,6 +139,14 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 40px 20px;
+  gap: 20px;
+  text-align: center;
+}
+.results-top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
   gap: 20px;
   text-align: center;
 }

@@ -115,118 +115,106 @@ function ResultsPage() {
   }
 
   return (
-
-
-    <div style={{padding: "40px",textAlign: "center",fontFamily: "Poppins", alignItems:"center"}}>
-      <h1 style={{color:"white"}}>Results</h1>
-      <div style={{display: "grid",gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",gap: "20px",marginTop: "20px", marginLeft:"auto",marginRight:"auto"}}>
-        {/*within result is an array of 4 top results so this is a loop that is puts 
-          each result on a different card by looping through result.
-          also, the onInfoClick at the bottom sets the selcted item to whatever item we are looking at
-          this then lets the popup render becuase it makes the selectedItem not None or Null*/}
-        {result?.data?.map((item, index) => (
-          <BasicCard
-            key={index}
-            image={item.url_info.image_url || beach}
-            food={item.item_name || "Food Name"}
-            restaurant={item.restaurant_name || "Restaurant"}
-            meta_price={`Price: $${item.meta?.price ?? "N/A"}`}
-            meta_eta={`ETA: ${item.meta?.eta ?? "N/A"} mins`}
-            meta_rating={`Rating: ${item.meta?.rating ?? "N/A"}/5`}
-            buttonText="View on UberEats"
-            onButtonClick={() => window.open(`https://www.ubereats.com${item.url_info.action_url}?diningMode=DELIVERY&mod=quickView&modctx=%257B%2522storeUuid%2522%253A%2522${item.url_info.store_uuid}%2522%252C%2522sectionUuid%2522%253A%2522${item.url_info.section_uuid}%2522%252C%2522subsectionUuid%2522%253A%2522${item.url_info.subsection_uuid}%2522%252C%2522itemUuid%2522%253A%2522${item.url_info.item_uuid}%2522%252C%2522showSeeDetailsCTA%2522%253Atrue%257D&ps=1&surfaceName=`, "_blank")}
-
-            
-            onInfoClick={() => setSelectedItem(item)} // open popup
-          />
-        ))}
-      </div>
-
-        { /*info popup logic
-          /*the && here has the purpose of making sure the popup renders ONLY IF selectedItem exists, 
-          hopfully thats never an issue because it shoudl always exist gulp*/}
-      {selectedItem && ( 
-  <div style={styles.popup}>
-    <div style={{ ...styles.popupContent, display: "flex", gap: "20px", alignItems: "flex-start" }}>
-      <span
-        style={styles.close}
-        onClick={closePopup}
-        onMouseOver={(e: any) => (e.currentTarget.style.color = "#F4A261")}
-        onMouseOut={(e: any) => (e.currentTarget.style.color = "#E63946")}
-      >
-        &times;
-      </span>
-      {/* Left side: Image */}
-      {selectedItem.url_info.image_url && (
-        <img
-          src={selectedItem.url_info.image_url}
-          alt={selectedItem.item_name}
-          style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "8px" }}
-        />
-      )}
-
-      {/* Right side: Details */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
-        <h2 style={styles.heading}>{selectedItem.item_name}</h2>
-        <h3 style={styles.subHeading}>{selectedItem.restaurant_name}</h3>
-        {selectedItem.item_desc && <p style={styles.paragraph}>{selectedItem.item_desc}</p>}
-        {selectedItem.customizations && (
-  <p style={styles.paragraph}>
-    <strong>Customizations:</strong>
-    <br />
-    {selectedItem.customizations.split(";").map((group, index) => {
-      const [title, options] = group.split(":").map(s => s.trim());
-      return (
-        <span key={index}>
-          <strong>{title}:</strong> {options}
-          {index < selectedItem.customizations.split(";").length - 1 && <br />}
-        </span>
-      );
-    })}
-  </p>
-)}
-
-        {selectedItem.meta && (
-          <p style={styles.paragraph}>
-            Price: ${selectedItem.meta.price ?? "N/A"} | ETA: {selectedItem.meta.eta ?? "N/A"} mins | Rating: {selectedItem.meta.rating ?? "N/A"}/5
-          </p>
-        )}
-        <button
-          style={styles.uberButton}
-          onClick={() => {
-            if (selectedItem.url_info) {
-              let url = `https://www.ubereats.com${selectedItem.url_info.action_url}?diningMode=DELIVERY&mod=quickView&modctx=%257B%2522storeUuid%2522%253A%2522${selectedItem.url_info.store_uuid}%2522%252C%2522sectionUuid%2522%253A%2522${selectedItem.url_info.section_uuid}%2522%252C%2522subsectionUuid%2522%253A%2522${selectedItem.url_info.subsection_uuid}%2522%252C%2522itemUuid%2522%253A%2522${selectedItem.url_info.item_uuid}%2522%252C%2522showSeeDetailsCTA%2522%253Atrue%257D&ps=1&surfaceName=`
-              window.open(url, "_blank");
-            } else {
-              alert("No Uber Eats link available.");
+    
+      <div style={{padding: "40px",textAlign: "center",fontFamily: "Poppins", alignItems:"center"}}>
+          <h1 style={{color:"white"}}>Results</h1>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "20px",
+            marginTop: "20px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            justifyContent: "center",   // center the whole grid inside its container
+            justifyItems: "center",     // center items inside their grid cells
+            maxWidth: "1400px"          // optional: constrain grid width so auto margins work
+            }}>        
+            {/*within result is an array of 4 top results so this is a loop that is puts 
+            each result on a different card by looping through result.
+            also, the onInfoClick at the bottom sets the selcted item to whatever item we are looking at
+            this then lets the popup render becuase it makes the selectedItem not None or Null*/}
+            {result?.data?.map((item, index) => (
+              <BasicCard
+                key={index}
+                image={item.url_info.image_url || beach}
+                food={item.item_name || "Food Name"}
+                restaurant={item.restaurant_name || "Restaurant"}
+                meta_price={`Price: $${item.meta?.price ?? "N/A"}`}
+                meta_eta={`ETA: ${item.meta?.eta ?? "N/A"} mins`}
+                meta_rating={`Rating: ${item.meta?.rating ?? "N/A"}/5`}
+                buttonText="View on UberEats"
+                onButtonClick={() => window.open(`https://www.ubereats.com${item.url_info.action_url}?diningMode=DELIVERY&mod=quickView&modctx=%257B%2522storeUuid%2522%253A%2522${item.url_info.store_uuid}%2522%252C%2522sectionUuid%2522%253A%2522${item.url_info.section_uuid}%2522%252C%2522subsectionUuid%2522%253A%2522${item.url_info.subsection_uuid}%2522%252C%2522itemUuid%2522%253A%2522${item.url_info.item_uuid}%2522%252C%2522showSeeDetailsCTA%2522%253Atrue%257D&ps=1&surfaceName=`, "_blank")}
+                onInfoClick={() => setSelectedItem(item)} // open popup
+              />))
             }
-          }}
-        >
-          View in Uber Eats
-        </button>
+          </div>
+       
+
+    
+        {selectedItem && ( 
+          <div style={styles.popup}>
+            <div style={{ ...styles.popupContent, display: "flex", gap: "20px", alignItems: "flex-start" }}>
+              <span
+                style={styles.close}
+                onClick={closePopup}
+                onMouseOver={(e: any) => (e.currentTarget.style.color = "#F4A261")}
+                onMouseOut={(e: any) => (e.currentTarget.style.color = "#E63946")}
+              >
+                &times;
+              </span>
+              {/* Left side: Image */}
+              {selectedItem.url_info.image_url && (
+                <img
+                  src={selectedItem.url_info.image_url}
+                  alt={selectedItem.item_name}
+                  style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "8px" }}
+                />
+              )}
+
+              {/* Right side: Details */}
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "8px" }}>
+                <h2 style={styles.heading}>{selectedItem.item_name}</h2>
+                <h3 style={styles.subHeading}>{selectedItem.restaurant_name}</h3>
+                {selectedItem.item_desc && <p style={styles.paragraph}>{selectedItem.item_desc}</p>}
+                {selectedItem.customizations && (
+                  <p style={styles.paragraph}>
+                    <strong>Customizations:</strong>
+                    <br />
+                      {selectedItem.customizations.split(";").map((group, index) => {
+                        const [title, options] = group.split(":").map(s => s.trim());
+                          return (
+                            <span key={index}>
+                              <strong>{title}:</strong> {options}
+                              {index < selectedItem.customizations.split(";").length - 1 && <br />}
+                            </span>
+                          );
+                      })}
+                  </p>
+                )}
+
+                {selectedItem.meta && (
+                  <p style={styles.paragraph}>
+                    Price: ${selectedItem.meta.price ?? "N/A"} | ETA: {selectedItem.meta.eta ?? "N/A"} mins | Rating: {selectedItem.meta.rating ?? "N/A"}/5
+                  </p>
+                )}
+                <button
+                  style={styles.uberButton}
+                  onClick={() => {
+                    if (selectedItem.url_info) {
+                      let url = `https://www.ubereats.com${selectedItem.url_info.action_url}?diningMode=DELIVERY&mod=quickView&modctx=%257B%2522storeUuid%2522%253A%2522${selectedItem.url_info.store_uuid}%2522%252C%2522sectionUuid%2522%253A%2522${selectedItem.url_info.section_uuid}%2522%252C%2522subsectionUuid%2522%253A%2522${selectedItem.url_info.subsection_uuid}%2522%252C%2522itemUuid%2522%253A%2522${selectedItem.url_info.item_uuid}%2522%252C%2522showSeeDetailsCTA%2522%253Atrue%257D&ps=1&surfaceName=`
+                      window.open(url, "_blank");
+                    } else {
+                      alert("No Uber Eats link available.");
+                    }
+                  }}
+                >
+                  View in Uber Eats
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  </div>
-)}
-
-
-      {result ? (
-        <pre
-          style={{
-            textAlign: "left",
-            backgroundColor: "#f8f9fa",
-            padding: "20px",
-            borderRadius: "10px",
-            overflowX: "auto",
-            marginTop: "30px",
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-      ) : (
-        <p>No results found.</p>
-      )}
-    </div>
   );
 }
 

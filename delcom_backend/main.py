@@ -18,7 +18,11 @@ last_result = {"data": None}
 # bypass CORS for local development, will change when deployed
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://delcom.onrender.com" ,"http://localhost:5173"],  # or ["*"] for any origin
+    allow_origins=[
+        "https://delcom.onrender.com",   # backend URL
+        "https://delcom.vercel.app",     # frontend URL (important!)
+        "http://localhost:5173",         # local dev
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

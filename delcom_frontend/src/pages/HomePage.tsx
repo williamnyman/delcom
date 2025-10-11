@@ -19,7 +19,7 @@ function HomePage() {
 
   const handleSubmit = async () => {
     try {
-      await fetch("http://127.0.0.1:8000/api/craving", {
+      await fetch("https://delcom.onrender.com/api/craving", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ address, craving }),

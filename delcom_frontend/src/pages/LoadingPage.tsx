@@ -123,7 +123,7 @@ function LoadingPage() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/progress");
+        const res = await fetch("https://delcom.onrender.com/progress");
         const data = await res.json();
         setProgress(data.value);
 
@@ -131,7 +131,7 @@ function LoadingPage() {
           clearInterval(interval);
 
           // fetch final result
-          const resultRes = await fetch("http://127.0.0.1:8000/result");
+          const resultRes = await fetch("https://delcom.onrender.com/result");
           const resultData = await resultRes.json();
 
           // navigate to results page with data

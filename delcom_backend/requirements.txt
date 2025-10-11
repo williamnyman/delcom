@@ -1,6 +1,8 @@
 openai
-playwright
 python-dotenv
 numpy
 scikit-learn
 requests
+playwright
+uvicorn
+fastapi

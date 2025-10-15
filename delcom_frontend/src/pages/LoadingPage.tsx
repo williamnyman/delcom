@@ -4,13 +4,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 function LoadingPage() {
   const [progress, setProgress] = useState(0);
   const [dots, setDots] = useState("");
+  const navigate = useNavigate();
   const [displayText, setDisplayText] = useState("");
   const [factIndex, setFactIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const location = useLocation();
-  const navigate = useNavigate();
-
   const sessionId = location.state?.sessionId;
 
   const funFacts = [
@@ -128,7 +127,7 @@ function LoadingPage() {
           `https://api.delcomapi.work/progress/${sessionId}`
         );
         const data = await res.json();
-        setProgress(data.value);
+        setProgress(data.progress);
 
         if (data.done) {
           clearInterval(interval);

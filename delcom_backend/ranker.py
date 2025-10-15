@@ -9,69 +9,7 @@ from spinner_util import spinner_start, spinner_end
 import time
 import re
 
-# once we get the best candidate from the ranker we parse it to send as
-# results to the frontend
-# def parse_item_string(encoding: str):
-#     # once we get the best candidate from the ranker we parse it to send as
-#     # results to the frontend
 
-#     # takes the encoding and splits it up into a bunch of lines
-#     # if this continues to give me issues then i will just restructure the parsing to be hard coded
-#     lines = encoding[0].strip().split("\n")
-#     for line in lines:
-#         print(line)
-
-
-#     # First line is [ITEM], skip it
-#     _, name_line, desc_line, options_line, tags_line, meta_line = lines
-
-#     # Parse item name and restaurant name
-#     if "—" in name_line:
-#         item_name, restaurant_name = map(str.strip, name_line.split("—"))
-    
-#     else:
-#         item_name = name_line.strip()
-#         restaurant_name = ""
-
-#     print("Item name:", item_name)
-
-#     # Parse description
-#     item_desc = desc_line.replace("Desc:", "").strip()
-
-#     # Parse options
-#     customizations = options_line.replace("Options:", "").strip()
-
-#     # Parse restaurant tags
-#     restaurant_tags = tags_line.replace("Restaurant tags:", "").strip().split(",")
-
-#     # ---- Parse meta info (rating, ETA, price) using splitting ----
-#     meta_line = meta_line.replace("Meta:", "").strip()
-#     parts = [p.strip() for p in meta_line.split(",")]
-#     print("Meta parts:", parts)
-
-#     # clean up meta data
-#     rating = float(parts[0][6:])   
-#     print(rating)      # "rating 4.6" → 4.6
-#     eta = int(parts[1].split()[1].split("–")[0])       
-#     print(eta)    # "ETA 25 min" → 25
-#     price = float(parts[2][7:])      # "$12.99" → 12.99
-#     print(price)
-
-    
-#     # construct and return dict/json of candidate
-#     return {
-#         "item_name": item_name,
-#         "restaurant_name": restaurant_name,
-#         "item_desc": item_desc,
-#         "customizations": customizations,
-#         "restaurant_tags": [tag.strip() for tag in restaurant_tags if tag.strip()],
-#         "meta": {
-#             "rating": rating,
-#             "eta": eta,
-#             "price": price
-#         },
-#         "image_url": encoding[1]
-#     }
 
 def parse_item_string(encoding: tuple):
     """

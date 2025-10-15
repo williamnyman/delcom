@@ -18,13 +18,16 @@ function HomePage() {
 
   const handleSubmit = async () => {
     try {
-      await fetch("https://api.delcomapi.work/api/craving", {
+      const res = await fetch("https://api.delcomapi.work/api/craving", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ address, craving }),
       });
 
-      navigate("/loading"); // go to loading page first
+      const data = await res.json();
+      const sessionId = data.session_id;
+
+      navigate("/loading", { state: { sessionId } }); // go to loading page first
     } catch (error) {
       console.error("Error submitting craving:", error);
     }

@@ -5,24 +5,23 @@ import threading
 import os
 import uvicorn
 from ranker import ranker_main
+import uuid
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # FastAPI app setup
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 app = FastAPI()
 
-# Track background progress and result
-progress = {"value": 0}
-last_result = {"data": None}
+# ✅ Store progress/results per session
+sessions = {}
 
-# ✅ Define allowed frontend origins
+# ✅ Allowed frontend origins
 origins = [
-    "https://delcom.vercel.app",  # your live frontend
+    "https://delcom.vercel.app",  # live frontend
     "http://localhost:5173",      # local dev
 ]
 
-# ✅ Configure CORS correctly
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -31,45 +30,54 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # Request model
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 class CravingRequest(BaseModel):
     address: str
     craving: str
 
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # API routes
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 @app.post("/api/craving")
 def craving_endpoint(data: CravingRequest):
-    """Start a background thread to process ranking."""
+    """Start a background thread to process ranking for a new session."""
+    session_id = str(uuid.uuid4())
+    sessions[session_id] = {"progress": 0, "result": None}
+
     def run_ranker():
         def progress_callback(value: int):
-            progress["value"] = value
+            sessions[session_id]["progress"] = value
+
         result = ranker_main(data.craving, data.address, progress_callback)
-        progress["value"] = 100
-        last_result["data"] = result
+        sessions[session_id]["progress"] = 100
+        sessions[session_id]["result"] = result
 
     threading.Thread(target=run_ranker, daemon=True).start()
-    return {"status": "Ranking started"}
+    return {"status": "Ranking started", "session_id": session_id}
 
-@app.get("/progress")
-def get_progress():
-    """Check current progress."""
-    return {**progress, "done": progress["value"] >= 100}
+@app.get("/progress/{session_id}")
+def get_progress(session_id: str):
+    """Check current progress for a specific session."""
+    session = sessions.get(session_id)
+    if not session:
+        return {"progress": 0, "done": False}
+    return {"progress": session["progress"], "done": session["progress"] >= 100}
 
-@app.get("/result")
-def get_result():
-    """Fetch the most recent result."""
-    return last_result
+@app.get("/result/{session_id}")
+def get_result(session_id: str):
+    """Fetch the result for a specific session."""
+    session = sessions.get(session_id)
+    if not session:
+        return {"data": None}
+    return {"data": session["result"]}
 
-# ------------------------------------------------------------------------------
-# App entry point (Render runs this)
-# ------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# App entry point
+# ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    # port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

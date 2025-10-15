@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function LoadingPage() {
   const [progress, setProgress] = useState(0);
-
   const [dots, setDots] = useState("");
-
-  const navigate = useNavigate();
-
   const [displayText, setDisplayText] = useState("");
   const [factIndex, setFactIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const sessionId = location.state?.sessionId;
 
   const funFacts = [
     "If you have any feedback or suggestions, feel free to email williamhnyman@gmail.com!",
@@ -123,7 +124,9 @@ function LoadingPage() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("https://api.delcomapi.work/progress");
+        const res = await fetch(
+          `https://api.delcomapi.work/progress/${sessionId}`
+        );
         const data = await res.json();
         setProgress(data.value);
 
@@ -131,7 +134,9 @@ function LoadingPage() {
           clearInterval(interval);
 
           // fetch final result
-          const resultRes = await fetch("https://api.delcomapi.work/result");
+          const resultRes = await fetch(
+            `https://api.delcomapi.work/result/${sessionId}`
+          );
           const resultData = await resultRes.json();
 
           // navigate to results page with data

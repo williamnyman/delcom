@@ -123,7 +123,7 @@ function LoadingPage() {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("https://delcom.onrender.com/progress");
+        const res = await fetch("https://api.delcomapi.work/progress");
         const data = await res.json();
         setProgress(data.value);
 
@@ -131,7 +131,7 @@ function LoadingPage() {
           clearInterval(interval);
 
           // fetch final result
-          const resultRes = await fetch("https://delcom.onrender.com/result");
+          const resultRes = await fetch("https://api.delcomapi.work/result");
           const resultData = await resultRes.json();
 
           // navigate to results page with data

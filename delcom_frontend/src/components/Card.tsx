@@ -50,7 +50,7 @@ export default function BasicCard({
 
       <style>{`
         .card {
-          width: 280px;
+          width: 240px;
           display: flex;
           flex-direction: column;
           background: #fff;
@@ -103,7 +103,7 @@ export default function BasicCard({
         }
 
         .card-content {
-          padding: 12px 14px;
+          padding: 8px 10px;
           flex: 1;
         }
 
@@ -135,7 +135,7 @@ export default function BasicCard({
         }
 
         .card-footer {
-          padding: 12px 14px;
+          padding: 8px 10px;
           border-top: 1px solid #eee;
           text-align: center;
         }

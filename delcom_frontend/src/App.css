@@ -5,12 +5,7 @@ body {
   background-color: #1D3557;
 }
 
-.page-container {
-  min-height: 100vh;            /* fill screen */
-  display: flex;
-  flex-direction: column;       /* vertical stack */
-  justify-content: space-between; /* top stuff at start, buttons at bottom */
-}
+
 
 .results-page-container {
   min-height: 100vh;            /* fill screen */
@@ -134,14 +129,7 @@ body {
   transition: color 0.2s ease;
 }
 
-.top-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-  gap: 20px;
-  text-align: center;
-}
+
 .topstuff {
   display: flex;
   flex-direction: column;
@@ -158,14 +146,12 @@ body {
 }
 
 .divforonebutton {
-  position: fixed;     /* stick to viewport */
-  bottom: 20px;        /* distance from bottom */
-  left: 50%;           /* center horizontally */
-  transform: translateX(-50%);
+  position: static;           /* let it flow naturally below cards */
+  margin-top: 40px;           /* space above the button */
   display: flex;
   justify-content: center;
   gap: 10px;
-  z-index: 1000;       /* make sure it’s above other content */
+  padding-bottom: 40px;       /* space from bottom edge */
 }
 
 .threebutton {
@@ -186,21 +172,59 @@ body {
   object-fit: contain; /* keeps aspect ratio, no stretching */
 }
 
-.bottom-section {
-  position: fixed;       /* stay at the bottom of the viewport */
-  bottom: 20px;          /* distance from bottom */
-  left: 50%;             /* center horizontally */
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column; /* stack text above buttons */
-  align-items: center;
-  gap: 8px;              /* space between text and buttons */
-  z-index: 500;         /* above other content */
-}
+
 
 .created-by {
   color: white;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   margin: 0;
+}
+
+.page-container {
+  min-height: 100vh;            /* fill screen */
+  display: flex;
+  flex-direction: column;       /* vertical stack */
+  justify-content: space-between; /* top stuff at start, buttons at bottom */
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 20px;
+  text-align: center;
+}
+
+.bottom-section {
+  position: static;           /* remove fixed positioning */
+  margin-top: auto;           /* pushes it to the bottom of the flex column */
+  display: flex;
+  flex-direction: column;     /* stack text above buttons */
+  align-items: center;
+  gap: 8px;                   /* space between text and buttons */
+  padding-bottom: 20px;       /* adds bottom spacing */
+}
+.divforthreebuttons {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  gap: 10px;
+  margin-bottom: 20px;    /* padding off bottom edge */
+}
+
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
+  max-width: 1400px;
+  margin: 20px auto 0 auto;
+}
+
+@media (max-width: 900px) {
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

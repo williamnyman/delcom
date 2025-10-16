@@ -170,7 +170,7 @@ def ranker_main(craving, address, progress_callback=None):
         scored_candidates.append((candidate, similarity))
 
     # Sort by similarity (descending) and take top 4
-    top_candidates = sorted(scored_candidates, key=lambda x: x[1], reverse=True)[:4]
+    top_candidates = sorted(scored_candidates, key=lambda x: x[1], reverse=True)[:12]
 
     # print("Top 4 candidates:")
     # for cand, score in top_candidates:

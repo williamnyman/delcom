@@ -83,7 +83,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
     # loop to try different filters, just doing bestOverall for now
     for name, filterID in backup_sortAndFilters.items():
-        print("Searching for restaurants with filter:", name)
+        #print("Searching for restaurants with filter:", name)
         PAYLOADgetSearchFeedV1["sortAndFilters"] = filterID
         response = requests.post(URLgetSearchFeedV1, headers=headers, json=PAYLOADgetSearchFeedV1)
         restaurants = parse_uber_getSearchFeedV1(response.json())
@@ -96,7 +96,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         if progress_callback:
             progress = 25 + int((i / total_restaurants) * 70)
             progress_callback(progress)
-        print("NEW RESTAURANT: "  + restaurant['title'])
+        #print("NEW RESTAURANT: "  + restaurant['title'])
 
 
 # Step 2) getStoreV1: get store UUIDs and section UUIDs for each restaurant
@@ -116,7 +116,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         components = parse_uber_getStoreV1(response2.json())
 
         if components is None:
-            print("Skipping restaurant due to failed data retrieval.")
+            #print("Skipping restaurant due to failed data retrieval.")
             continue
 
 # Step 3) getInStoreSearchV1: get some shit for specific search
@@ -138,14 +138,15 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         menu_items = parse_uber_getStoreV1_for_items(response10.json())
         
         if menu_items:
-            print("got good results from response10, moving on ")
-            print(menu_items)
+            print("")
+            #print("got good results from response10, moving on ")
+            #print(menu_items)
         else:
             menu_items = parse_uber_getStoreV1_for_items(response2.json())
-            print("menu items come from response 2")
+            #print("menu items come from response 2")
     
         if components is None or menu_items is None:
-            print("Skipping restaurant due to failed data retrieval.")
+            #print("Skipping restaurant due to failed data retrieval.")
             continue
         
         # beginning menu item loop for current restaurant
@@ -224,7 +225,7 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
 
         
 
-    print("Total candidates found:", len(candidates))
+    #print("Total candidates found:", len(candidates))
 
 
     return candidates

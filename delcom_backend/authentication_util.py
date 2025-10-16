@@ -33,17 +33,17 @@ def get_cookie_and_csrf(address):
 
         # Go to Uber Eats entry page (with address entry)
         page.goto("https://www.ubereats.com/")
-        print("Uber Eats entry page ✓")
+        #print("Uber Eats entry page ✓")
 
         # if "Enter Address Manually" popup occurs, close it
         if page.is_visible("button[title='Close']"):
             page.click("button[title='Close']")
-            print("Popup closed ✓")
+            #print("Popup closed ✓")
 
         # Wait for the address input to be visible (wait for popup to be closed) and fill it
         page.wait_for_selector('input#location-typeahead-home-input', state='visible')
         page.fill('input#location-typeahead-home-input', address)
-        print("Address filled ✓ " + address)
+        #print("Address filled ✓ " + address)
 
         from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
@@ -53,7 +53,7 @@ def get_cookie_and_csrf(address):
         # wait up to 2s to see if it appears
         try:
             locator.wait_for(state="visible", timeout=2000)
-            print("error! see ya!")
+            #print("error! see ya!")
             return -1, -1  # appeared within 2s → return -1
         except PlaywrightTimeoutError:
             # didn’t appear in 2s → continue as normal
@@ -71,7 +71,7 @@ def get_cookie_and_csrf(address):
                 break
             except:
                 pass
-        print("Uber eats home page ✓")
+        #print("Uber eats home page ✓")
 
         # Get cookies and converts them to a string format because requests library expects a string
         cookies = context.cookies()

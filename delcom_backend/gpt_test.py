@@ -59,5 +59,5 @@ def get_craving(craving):
 
     # return the craving encoding
     craving_encoding = response.choices[0].message.content.strip()
-    print(craving_encoding)
+    #print(craving_encoding)
     return craving_encoding

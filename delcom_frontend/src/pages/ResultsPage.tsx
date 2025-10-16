@@ -105,7 +105,7 @@ function ResultsPage() {
     },
   };
 
-  console.log(result);
+  //console.log(result);
 
   if (
     result &&

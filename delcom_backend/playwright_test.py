@@ -11,7 +11,7 @@ with sync_playwright() as p:
 
     if page.is_visible("button[title='Close']"):
         page.click("button[title='Close']")
-        print('Popup closed.')
+        #print('Popup closed.')
 
     page.wait_for_selector('input#location-typeahead-home-input', state='visible')
     page.fill('input#location-typeahead-home-input', address)

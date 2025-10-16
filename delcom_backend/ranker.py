@@ -26,7 +26,8 @@ def parse_item_string(encoding: tuple):
     url_info = encoding[1]
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     for line in lines:
-        print(line)
+        print("")
+        #print(line)
 
     # --- Parse name/restaurant ---
     item_name, restaurant_name = "", ""
@@ -41,7 +42,7 @@ def parse_item_string(encoding: tuple):
             restaurant_name = ""
             break
 
-    print("Item name:", item_name)
+    #print("Item name:", item_name)
 
     # --- Parse description ---
     item_desc = ""
@@ -75,9 +76,10 @@ def parse_item_string(encoding: tuple):
                 eta = int(parts[1].split()[1].split("–")[0]) if len(parts) > 1 else None
                 price = float(parts[2][7:]) if len(parts) > 2 else None
             except Exception as e:
-                print("Meta parsing failed:", e, "parts:", parts)
+                print("")
+                #print("Meta parsing failed:", e, "parts:", parts)
 
-    print("Meta -> rating:", rating, "eta:", eta, "price:", price)
+    #print("Meta -> rating:", rating, "eta:", eta, "price:", price)
 
     # --- Build result dict ---
     return {
@@ -121,8 +123,7 @@ def extract_core_food(text):
 # quite literally the function that does everything, this is
 # the result that is passed to the frontend
 def ranker_main(craving, address, progress_callback=None):
-    print("craving received in ranker_main:", craving)
-    print("address received in ranker_main:", address)
+    print(f"new ranker started | craving: {craving} | address {address}")
     if progress_callback: 
         progress_callback(5)
 

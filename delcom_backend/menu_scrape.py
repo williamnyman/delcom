@@ -138,7 +138,8 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
         menu_items = parse_uber_getStoreV1_for_items(response10.json())
         
         if menu_items:
-            print("")
+            dummy = 0
+            #print("")
             #print("got good results from response10, moving on ")
             #print(menu_items)
         else:

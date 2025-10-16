@@ -68,7 +68,8 @@ def parse_uber_getStoreV1(data):
     for section in data.get("data", {}).get("sections", []):
         sectionUUIDs.append(section.get("uuid", ""))
 
-    
+    components.update({"storeURL": data.get("data",{}).get("heroImageUrls")[0].get("url","")})
+
     components.update({"sectionUUIDs": sectionUUIDs})
 
     components.update({"storeUUIDs": [data["data"]["uuid"]]})    
@@ -94,6 +95,8 @@ def parse_uber_getStoreV1_for_items(data):
     if data["status"] != "success":
         return None
     
+
+
     items_list = []
 
     data = data["data"]["catalogSectionsMap"]

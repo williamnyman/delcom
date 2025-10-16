@@ -212,12 +212,14 @@ def scraper_uber_eats(FOOD, ADDRESS, progress_callback=None):
             # add uber eats url to the response
 
             url_info = {
-                "image_url":menu_item_details['image_url'],
+                "image_url": menu_item_details['image_url'] if menu_item_details['image_url'] else components['storeURL'],
+                #"image_url":menu_item_details['image_url'],
                 "action_url":restaurant['actionUrl'],
                 "store_uuid":restaurant['storeUuid'],
                 "section_uuid":menu_item['sectionuuid'],
                 "subsection_uuid":menu_item['subsectionuuid'],
                 "item_uuid":menu_item['menuitemuuid'],
+                
             }
             candidates.append((encoding, url_info))
 

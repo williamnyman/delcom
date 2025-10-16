@@ -144,7 +144,7 @@ function ResultsPage() {
             each result on a different card by looping through result.
             also, the onInfoClick at the bottom sets the selcted item to whatever item we are looking at
             this then lets the popup render becuase it makes the selectedItem not None or Null*/}
-        {result?.data?.map((item, index) => (
+        {result?.data?.slice(0, 6).map((item, index) => (
           <BasicCard
             key={index}
             image={item.url_info.image_url || beach}

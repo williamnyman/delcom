@@ -51,8 +51,10 @@ def craving_endpoint(data: CravingRequest):
     def run_ranker():
         def progress_callback(value: int):
             sessions[session_id]["progress"] = value
-
-        result = ranker_main(data.craving, data.address, progress_callback)
+        try:
+            result = ranker_main(data.craving.strip(), data.address.strip(), progress_callback)
+        except:
+            result = {"error": "Internal processing error"}
         sessions[session_id]["progress"] = 100
         sessions[session_id]["result"] = result
 

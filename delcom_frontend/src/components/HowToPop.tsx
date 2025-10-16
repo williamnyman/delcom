@@ -7,9 +7,9 @@ import verySpecificImg from "../assets/verySpecific.png";
 import submit from "../assets/submit.png";
 
 interface HowToPopProps {
-    showHowTo: boolean;
-    setShowHowTo: React.Dispatch<React.SetStateAction<boolean>>;
-  }
+  showHowTo: boolean;
+  setShowHowTo: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 function HowToPop({ showHowTo, setShowHowTo }: HowToPopProps) {
   const closeHowTo = () => setShowHowTo(false);
@@ -88,7 +88,9 @@ function HowToPop({ showHowTo, setShowHowTo }: HowToPopProps) {
             <span
               style={styles.close}
               onClick={closeHowTo}
-              onMouseOver={(e: any) => (e.currentTarget.style.color = "#F4A261")}
+              onMouseOver={(e: any) =>
+                (e.currentTarget.style.color = "#F4A261")
+              }
               onMouseOut={(e: any) => (e.currentTarget.style.color = "#E63946")}
             >
               &times;
@@ -97,7 +99,9 @@ function HowToPop({ showHowTo, setShowHowTo }: HowToPopProps) {
 
             <section>
               <h3 style={styles.subHeading}>Step 1: Enter Your Address</h3>
-              <p style={styles.paragraph}>Type your address in the search bar like this:</p>
+              <p style={styles.paragraph}>
+                Type your address in the search bar like this:
+              </p>
               <img
                 src={fakeAddressImg}
                 alt="Example address input"
@@ -108,31 +112,42 @@ function HowToPop({ showHowTo, setShowHowTo }: HowToPopProps) {
             <section>
               <h3 style={styles.subHeading}>Step 2: Enter Your Craving</h3>
               <p style={styles.paragraph}>
-                Your craving can be as vague or specific as you'd like. Here are some examples:
+                Your craving can be as vague or specific as you'd like. Here are
+                some examples:
               </p>
               <div style={styles.cravingImages}>
-                <img src={vagueCravingImg} alt="Vague craving" style={styles.instructionImg} />
-                <img src={somewhatSpecificImg} alt="Somewhat specific craving" style={styles.instructionImg} />
-                <img src={specificImg} alt="Specific craving" style={styles.instructionImg} />
-                <img src={verySpecificImg} alt="Very specific craving" style={styles.instructionImg} />
+                <img
+                  src={vagueCravingImg}
+                  alt="Vague craving"
+                  style={styles.instructionImg}
+                />
+                <img
+                  src={somewhatSpecificImg}
+                  alt="Somewhat specific craving"
+                  style={styles.instructionImg}
+                />
+                <img
+                  src={specificImg}
+                  alt="Specific craving"
+                  style={styles.instructionImg}
+                />
+                <img
+                  src={verySpecificImg}
+                  alt="Very specific craving"
+                  style={styles.instructionImg}
+                />
               </div>
-            
             </section>
 
             <section>
               <h3 style={styles.subHeading}>Step 3: Hit submit!</h3>
               <p style={styles.paragraph}>
-                Hang tight for ~90 seconds while we find the best matches for you!
+                Hang tight for ~2 minutes while we find the best matches for
+                you!
               </p>
               <div style={styles.cravingImages}>
-            <img
-                src={submit}
-                alt="Vague craving"
-                
-            />
-            </div>
-
-            
+                <img src={submit} alt="Vague craving" />
+              </div>
             </section>
           </div>
         </div>

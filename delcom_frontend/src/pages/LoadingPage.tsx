@@ -146,7 +146,7 @@ function LoadingPage() {
       } catch (err) {
         console.error("Error polling progress:", err);
       }
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [navigate]);

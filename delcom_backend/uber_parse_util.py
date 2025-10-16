@@ -27,7 +27,7 @@ def parse_uber_getSearchFeedV1(data):
 
     # Extracting restaurant names and UUIDs from the JSON data
     feedItems = data.get("data", {}).get("feedItems", [])
-    for item in feedItems[:10]: #[:5]:
+    for item in feedItems[:6]: #[:5]:
         store_name = item.get("store", {}).get("title", {}).get("text", "")
         store_uuid = item.get("store", {}).get("storeUuid", "")
         action_url = item.get("store", {}).get("actionUrl", "")

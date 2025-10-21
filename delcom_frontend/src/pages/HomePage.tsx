@@ -34,7 +34,7 @@ function HomePage() {
     }
   };
 
-  return <OfflinePopup />;
+  //return <OfflinePopup />;
 
   return (
     <div className="page-container">

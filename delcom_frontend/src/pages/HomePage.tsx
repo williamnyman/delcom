@@ -9,6 +9,7 @@ import HowToPop from "../components/HowToPop"; // import the popup component
 import mail from "../assets/file.svg";
 import linkedin2 from "../assets/linkedin2.png";
 import mark from "../assets/question-sign.png";
+import OfflinePopup from "../components/OfflinePopup";
 
 function HomePage() {
   const [address, setAddress] = React.useState("");
@@ -32,6 +33,8 @@ function HomePage() {
       console.error("Error submitting craving:", error);
     }
   };
+
+  return <OfflinePopup />;
 
   return (
     <div className="page-container">

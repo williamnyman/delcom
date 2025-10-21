@@ -19,7 +19,8 @@ sessions = {}
 # ✅ Allowed frontend origins
 origins = [
     "https://delcom.vercel.app",  # live frontend
-    "http://localhost:5173",      # local dev
+    "http://localhost:5173",
+    "https://delcom.vercel.app"      # local dev
 ]
 
 app.add_middleware(

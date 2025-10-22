@@ -10,7 +10,11 @@ import mail from "../assets/file.svg";
 import linkedin2 from "../assets/linkedin2.png";
 import mark from "../assets/question-sign.png";
 
+import OfflinePopup from "../components/OfflinePopup";
+
 function HomePage() {
+  return <OfflinePopup />;
+
   const [address, setAddress] = React.useState("");
   const [craving, setCraving] = React.useState("");
   const [showHowTo, setShowHowTo] = React.useState(true);
@@ -32,9 +36,6 @@ function HomePage() {
       console.error("Error submitting craving:", error);
     }
   };
-
-  //import OfflinePopup from "../components/OfflinePopup";
-  //return <OfflinePopup />;
 
   return (
     <div className="page-container">

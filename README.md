@@ -19,9 +19,6 @@ This repository showcases the **architecture and implementation** of the system 
 
 ## 🧱 Project Structure
 
-
-
-```
 delcom/
 ├── delcom_backend/ # Backend (Python + FastAPI + Playwright + OpenAI)
 │ ├── app/ # Core backend logic
@@ -36,7 +33,7 @@ delcom/
 ├── docs/ # Architecture notes / screenshots
 ├── .gitignore
 └── README.md
-```
+---
 ## 🧠 Tech Stack
 
 | Layer | Tools & Frameworks |
@@ -51,7 +48,7 @@ delcom/
 ## 📸 UI Preview
 
 *(Screenshots / demo images can go here if desired)*  
-```markdown
+markdown
 ![Delcom UI](docs/ui-home.png)
 ![Search results](docs/results.png)
 

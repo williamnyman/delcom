@@ -13,7 +13,7 @@ Built from the ground up with a **Python/FastAPI backend** and a **React/TypeScr
 - Scores and ranks menu items by similarity, style, and keyword relevance  
 - Displays the top matches through a responsive web interface  
 
-This repository showcases the **architecture and implementation** of the system — it's meant for **reviewing the code**, not self-deployment.
+This repository showcases the **architecture and implementation** of the system — isn't meant for self deployment, to test visit delcom.vercel.app
 
 ---
 
@@ -46,7 +46,6 @@ delcom/
 | **Backend** | Python, FastAPI |
 | **Automation** | Playwright |
 | **AI / NLP** | OpenAI API (embeddings + LLM parsing) |
-| **Hosting / Infra** | Vercel (frontend), Cloudflare Tunnel (backend) |
 
 ---
 
@@ -64,9 +63,9 @@ delcom/
 ## 🔍 Highlights
 
 - **LLM-powered craving understanding** — interprets vague inputs like "something spicy and fried"
-- **Cross-platform menu scraping** — pulls data from multiple delivery sites simultaneously
+- **Cross-platform menu scraping** — pulls data from UberEats using backend API reverse engineering
 - **Real-time progress feedback** — frontend updates while backend fetches results
-- **Custom ranking pipeline** — blends embeddings with keyword heuristics for precise matches
+- **Ranking pipeline** — embedding comparisons used to find precise matches
 - **From-scratch architecture** — full design, build, and deployment by a single developer
 
 ---

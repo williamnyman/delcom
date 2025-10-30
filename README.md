@@ -1,115 +1,87 @@
-# Delcom
+# 🥡 Delcom
 
-Delcom is a full-stack project that automates food ordering and matches user cravings to menu items using AI. It combines a Python backend using Playwright and OpenAI with a frontend (e.g., React) user interface.
+Delcom is a full-stack AI project that connects **user cravings** to **real delivery menu items**.  
+It blends **natural language understanding**, **live menu scraping**, and **custom ranking logic** to recommend the best food delivery options — bringing intelligence to everyday ordering.
 
 ---
 
-## 🔧 Project Structure
+## 🚀 Overview
+
+Built from the ground up with a **Python/FastAPI backend** and a **React/TypeScript frontend**, Delcom automatically:
+- Interprets user cravings using OpenAI embeddings and prompt logic  
+- Fetches live menus from delivery platforms via Playwright automation  
+- Scores and ranks menu items by similarity, style, and keyword relevance  
+- Displays the top matches through a responsive web interface  
+
+This repository showcases the **architecture and implementation** of the system — it’s meant for **reviewing the code**, not self-deployment.
+
+---
+
+## 🧱 Project Structure
+
+
 
 ```
 delcom/
-├── delcom_backend/       # Python backend (Playwright, OpenAI)
-│   ├── gpt_test.py
-│   ├── menu_scrape.py
-│   ├── playwright_test.py
-│   ├── .env              # API keys (not tracked in git)
-│   └── requirements.txt
-├── delcom_frontend/      # Frontend (React app)
-│   └── ...               # React files
+├── delcom_backend/ # Backend (Python + FastAPI + Playwright + OpenAI)
+│ ├── app/ # Core backend logic
+│ ├── menu_scrape.py # Delivery menu retrieval
+│ ├── ranking.py # Embedding + similarity ranking
+│ ├── gpt_test.py # Prompt experimentation
+│ ├── requirements.txt
+│ └── .env (ignored) # API keys and credentials
+├── delcom_frontend/ # Frontend (React + TypeScript)
+│ ├── src/
+│ └── package.json
+├── docs/ # Architecture notes / screenshots
 ├── .gitignore
 └── README.md
 ```
-
----
-
-## ⚙️ Setup Instructions
-
-### Backend
-
-1. Navigate to the backend directory:
-
-   ```bash
-   cd delcom_backend
-   ```
-
-2. Create and activate a virtual environment:
-
-   ```bash
-   # On macOS/Linux
-   python3 -m venv venv
-   source playwright_venv/bin/activate
-
-   # On Windows
-   python -m venv venv
-   playwright_venv\Scripts\activate
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file:
-   ```ini
-   OPENAI_API_KEY=your-openai-api-key-here
-   ```
-
----
-
-### Frontend
-
-1. Navigate to the frontend directory:
-
-   ```bash
-   cd delcom_frontend
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Run the app:
-   ```bash
-   npm start
-   ```
-
----
-
-## 📦 .gitignore
-
-Make sure the following are ignored by Git (already included in `.gitignore`):
-
-```gitignore
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-env/
-venv/
-.env
-
-# Node
-node_modules/
-build/
-dist/
-```
-
----
-
 ## 🧠 Tech Stack
 
-- **Python**: Backend logic and automation
-- **Playwright**: Headless browser automation
-- **OpenAI API**: Natural language understanding
-- **React**: Frontend interface (assumed)
-- **dotenv**: Environment variable management
+| Layer | Tools & Frameworks |
+|-------|--------------------|
+| **Frontend** | React, TypeScript, Vite |
+| **Backend** | Python, FastAPI |
+| **Automation** | Playwright |
+| **AI / NLP** | OpenAI API (embeddings + LLM parsing) |
+| **Hosting / Infra** | Vercel (frontend), Cloudflare Tunnel (backend) |
+---
+
+## 📸 UI Preview
+
+*(Screenshots / demo images can go here if desired)*  
+```markdown
+![Delcom UI](docs/ui-home.png)
+![Search results](docs/results.png)
+
 
 ---
 
-## 📬 Contact
+🔍 Highlights
 
-Created by [@williamnyman](https://github.com/williamnyman)
+LLM-powered craving understanding — interprets vague inputs like “something spicy and fried”
+
+Cross-platform menu scraping — pulls data from multiple delivery sites simultaneously
+
+Real-time progress feedback — frontend updates while backend fetches results
+
+Custom ranking pipeline — blends embeddings with keyword heuristics for precise matches
+
+From-scratch architecture — full design, build, and deployment by a single developer
+
+🧾 Note
+
+This repository is intended for showcasing implementation and architecture.
+Environment files, API keys, and deployment credentials are intentionally excluded.
+Running the full system locally is not required or supported.
+
+🪪 License
+
+© 2025 William Nyman. All rights reserved.
+
+💬 Contact
+
+William Nyman
+GitHub
+ • LinkedIn

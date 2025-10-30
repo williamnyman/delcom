@@ -21,15 +21,21 @@ This repository showcases the **architecture and implementation** of the system 
 
 ```
 delcom/
-├── delcom_backend/          # Backend (Python + FastAPI + Playwright + OpenAI)
-│   ├── app/                 # Core backend logic
-│   ├── menu_scrape.py       # Delivery menu retrieval
-│   ├── ranking.py           # Embedding + similarity ranking
-│   ├── gpt_test.py          # Prompt experimentation
-│   ├── requirements.txt
-│   └── .env (ignored)       # API keys and credentials
-├── delcom_frontend/         # Frontend (React + TypeScript)
+├── delcom_backend/                # Backend (Python + FastAPI + Playwright + OpenAI)
+│   ├── app/                       # Core backend logic
+|   ├── authentication_util.py     # Playwright calls to gather session cookies
+|   ├── main.py                    # FastAPI handling
+│   ├── menu_scrape.py             # Delivery menu retrieval
+│   ├── ranker.py                  # Embedding + similarity ranking
+│   ├── gpt_test.py                # GPT encoding logic
+│   ├── uber_parse_util.py         # Functions for parsing each different response from UberEats backend API
+│   ├── requirements.txt           # Requirements.txt
+│   ├── Dockerfile                 # Dockerfile for deployment 
+│   └── .env (ignored)             # API keys and credentials
+├── delcom_frontend/               # Frontend (React + TypeScript)
 │   ├── src/
+|   |   ├── components             # Webpage componests (.tsx)
+|   |   └── pages                  # Pages (Home, Loading, Results)
 │   └── package.json
 ├── docs/                    # Architecture notes / screenshots
 ├── .gitignore
@@ -75,14 +81,6 @@ delcom/
 This repository is intended for showcasing implementation and architecture.  
 Environment files, API keys, and deployment credentials are intentionally excluded.  
 Running the full system locally is not required or supported.
-
----
-
-## 🪪 License
-
-© 2025 William Nyman. All rights reserved.
-
----
 
 ## 💬 Contact
 

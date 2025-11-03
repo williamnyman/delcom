@@ -42,7 +42,7 @@ const OfflinePopup: React.FC = () => {
           }}
         >
           It will be live again at{" "}
-          <span style={{ fontWeight: "bold" }}>12pm PST Nov. 2</span>.
+          <span style={{ fontWeight: "bold" }}>10am PST Nov. 3</span>.
         </p>
       </div>
     </div>

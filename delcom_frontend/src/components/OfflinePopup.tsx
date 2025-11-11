@@ -33,7 +33,7 @@ const OfflinePopup: React.FC = () => {
         >
           Delcom is currently offline
         </h2>
-        {/* <p
+        <p
           style={{
             color: "#457B9D",
             fontSize: "16px",
@@ -41,9 +41,9 @@ const OfflinePopup: React.FC = () => {
             lineHeight: "1.4",
           }}
         >
-          It will be live again at{" "}
-          <span style={{ fontWeight: "bold" }}>10am PST Nov. 6</span>.
-        </p> */}
+          It will be live again by{" "}
+          <span style={{ fontWeight: "bold" }}>10am PST Nov. 11</span>.
+        </p>
       </div>
     </div>
   );

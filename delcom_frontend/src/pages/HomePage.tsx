@@ -13,7 +13,7 @@ import mark from "../assets/question-sign.png";
 import OfflinePopup from "../components/OfflinePopup";
 
 function HomePage() {
-  return <OfflinePopup />;
+  //return <OfflinePopup />;
 
   const [address, setAddress] = React.useState("");
   const [craving, setCraving] = React.useState("");

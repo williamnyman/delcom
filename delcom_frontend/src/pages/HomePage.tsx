@@ -10,7 +10,7 @@ import mail from "../assets/file.svg";
 import linkedin2 from "../assets/linkedin2.png";
 import mark from "../assets/question-sign.png";
 
-import OfflinePopup from "../components/OfflinePopup";
+//import OfflinePopup from "../components/OfflinePopup";
 
 function HomePage() {
   //return <OfflinePopup />;
